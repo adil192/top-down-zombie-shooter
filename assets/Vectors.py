@@ -3,8 +3,8 @@ from dataclasses import dataclass
 
 @dataclass
 class Vector2:
-    x: float
-    y: float
+    x: float = 0
+    y: float = 0
 
     def __add__(self, other):
         return Vector2(self.x + other.x, self.y + other.y)
