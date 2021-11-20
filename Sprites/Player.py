@@ -8,12 +8,14 @@ from typing import List
 
 
 class Player(AnimatedSprite):
-    FRAMES: List[PhotoImage] = AnimatedSprite.getFramesWithFilePattern("images/Top_Down_Survivor/handgun/move"
-                                                                       "/survivor-move_handgun_{0}.png")
+    FRAMES_IDLE: List[PhotoImage] =\
+        AnimatedSprite.getFramesWithFilePattern("images/Top_Down_Survivor/handgun/idle/survivor-idle_handgun_{0}.png")
+    FRAMES_MOVE: List[PhotoImage] =\
+        AnimatedSprite.getFramesWithFilePattern("images/Top_Down_Survivor/handgun/move/survivor-move_handgun_{0}.png")
     MAX_SPEED: float = 50
 
     def __init__(self):
-        super().__init__(Player.FRAMES)
+        super().__init__(Player.FRAMES_IDLE)
         self.position = Vector2(0, 250)
         self.rotation = pi / 2
         self.speed = 50  # pixels per second
@@ -60,6 +62,10 @@ class Player(AnimatedSprite):
         dy = self.inputDown - self.inputUp
         self.rotation = atan2(dx, dy)
         if dx == 0 and dy == 0:
+            if self.speed == 0:
+                self.frames = Player.FRAMES_IDLE
             self.speed = 0
         else:
+            if self.speed > 0:
+                self.frames = Player.FRAMES_MOVE
             self.speed = Player.MAX_SPEED
