@@ -23,6 +23,7 @@ class Game:
         self.sprites: List[Sprite] = []
 
         self.player = Player()
+        self.player.setupKeyBindings(self.tk)
         self.sprites.append(self.player)
 
         self.update()
