@@ -3,19 +3,17 @@ Game window is 1280x720
 """
 
 from tkinter import *
-from assets.Sprite import Sprite
-from assets.Vectors import Vector2
 
-from typing import List
 
+tk = Tk()
 
 UPDATE_INTERVAL = int(1000/60)  # 60 fps
 DRAW_INTERVAL = int(1000/60)  # 60 fps
 
 
 class Game:
-    def __init__(self):
-        self.tk = Tk()
+    def __init__(self, master):
+        self.tk = master
         self.tk.geometry("1280x720")
         self.tk.resizable(False, False)
 
@@ -46,5 +44,10 @@ class Game:
 
 
 if __name__ == "__main__":
-    game = Game()
+    from assets.Sprite import Sprite
+    from assets.Vectors import Vector2
+
+    from typing import List
+
+    game = Game(tk)
     game.tk.mainloop()
