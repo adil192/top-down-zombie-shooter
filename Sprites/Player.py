@@ -1,3 +1,4 @@
+from math import pi
 from tkinter import PhotoImage
 
 from assets.AnimatedSprite import AnimatedSprite
@@ -13,6 +14,7 @@ class Player(AnimatedSprite):
     def __init__(self):
         super().__init__(Player.FRAMES)
         self.position = Vector2(0, 250)
+        self.rotation = pi / 2
         self.speed = 20  # pixels per second
 
     @property
@@ -26,4 +28,5 @@ class Player(AnimatedSprite):
 
     def update(self, dt):
         super(Player, self).update(dt)
-        self.position += Vector2(self.speed * dt, 0 * dt)
+        self.position += self.forwards * (self.speed * dt)
+
