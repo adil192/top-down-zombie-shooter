@@ -1,5 +1,5 @@
 """
-Game window is 1280x720
+Game window is 1600x900
 """
 
 from tkinter import *
@@ -14,7 +14,7 @@ DRAW_INTERVAL = int(1000/60)  # 60 fps
 class Game:
     def __init__(self, master):
         self.tk = master
-        self.tk.geometry("1280x720")
+        self.tk.geometry("1600x900")
         self.tk.resizable(False, False)
 
         self.canvas = Canvas(self.tk, width=1280, height=720, bg="#151f13", cursor="hand2")
