@@ -17,5 +17,11 @@ class Sprite:
         self._pos = new
         self.centrePosition = new - self.imageSize / 2
 
+    def update(self, dt):
+        """
+        :param dt: time since last update in seconds
+        """
+        pass
+
     def draw(self, canvas: Canvas):
         canvas.create_image(self.centrePosition.x, self.centrePosition.y, image=self.image, anchor=NW)

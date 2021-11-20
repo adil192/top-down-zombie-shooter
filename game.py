@@ -31,7 +31,8 @@ class Game:
         self.draw()
 
     def update(self):
-        self.player.position += Vector2(1, 1)
+        for sprite in self.sprites:
+            sprite.update(UPDATE_INTERVAL / 1000)
 
         self.tk.after(UPDATE_INTERVAL, self.update)
 
