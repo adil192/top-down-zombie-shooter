@@ -59,6 +59,7 @@ class AnimatedSprite(Sprite):
         self.centrePosition = new - self.imageSize / 2
 
     def update(self, dt):
+        super(AnimatedSprite, self).update(dt)
         self.cycleTime += dt
         frame = floor((self.cycleTime * len(self.frames)) / self.cycleLength)
         if frame >= len(self.frames):
@@ -67,7 +68,7 @@ class AnimatedSprite(Sprite):
         self.image = self.frames[frame]
 
     def draw(self, canvas: Canvas):
-        canvas.create_image(self.centrePosition.x, self.centrePosition.y, image=self.image, anchor=NW)
+        super(AnimatedSprite, self).draw(canvas)
 
     @staticmethod
     def getFramesWithFilePattern(file_pattern: str) -> List[PhotoImage]:
