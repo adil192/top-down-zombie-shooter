@@ -22,7 +22,7 @@ class Game:
 
         self.sprites: List[Sprite] = []
 
-        self.player = Sprite("images/Top_Down_Survivor/handgun/idle/survivor-idle_handgun_0.png")
+        self.player = Player()
         self.sprites.append(self.player)
 
         self.update()
@@ -46,6 +46,8 @@ class Game:
 if __name__ == "__main__":
     from assets.Sprite import Sprite
     from assets.Vectors import Vector2
+
+    from Sprites.Player import Player
 
     from typing import List
 
