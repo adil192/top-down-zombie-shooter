@@ -1,5 +1,7 @@
 from dataclasses import dataclass
 
+from typing import Union
+
 
 @dataclass
 class Vector2:
@@ -14,23 +16,38 @@ class Vector2:
     def magnitude(self):
         return self.sqrMagnitude ** 0.5
 
-    def __add__(self, other):
+    def __add__(self, other: "Vector2"):
         return Vector2(self.x + other.x, self.y + other.y)
 
-    def __sub__(self, other):
+    def __sub__(self, other: "Vector2"):
         return Vector2(self.x - other.x, self.y - other.y)
 
-    def __mul__(self, other):
-        return Vector2(self.x * other.x, self.y * other.y)
+    def __mul__(self, other: Union["Vector2", int, float]):
+        if isinstance(other, Vector2):
+            return Vector2(self.x * other.x, self.y * other.y)
+        else:
+            return Vector2(self.x * other, self.y * other)
 
-    def __pow__(self, other):
-        return Vector2(self.x ** other.x, self.y ** other.y)
+    def __pow__(self, other: Union["Vector2", int, float]):
+        if isinstance(other, Vector2):
+            return Vector2(self.x ** other.x, self.y ** other.y)
+        else:
+            return Vector2(self.x ** other, self.y ** other)
 
-    def __truediv__(self, other):
-        return Vector2(self.x / other.x, self.y / other.y)
+    def __truediv__(self, other: Union["Vector2", int, float]):
+        if isinstance(other, Vector2):
+            return Vector2(self.x / other.x, self.y / other.y)
+        else:
+            return Vector2(self.x / other, self.y / other)
 
-    def __floordiv__(self, other):
-        return Vector2(self.x // other.x, self.y // other.y)
+    def __floordiv__(self, other: Union["Vector2", int, float]):
+        if isinstance(other, Vector2):
+            return Vector2(self.x // other.x, self.y // other.y)
+        else:
+            return Vector2(self.x // other, self.y // other)
 
-    def __mod__(self, other):
-        return Vector2(self.x % other.x, self.y % other.y)
+    def __mod__(self, other: Union["Vector2", int, float]):
+        if isinstance(other, Vector2):
+            return Vector2(self.x % other.x, self.y % other.y)
+        else:
+            return Vector2(self.x % other, self.y % other)
