@@ -1,10 +1,20 @@
 from tkinter import PhotoImage, Canvas, NW
+
 from assets.Vectors import Vector2
+
+from typing import Union
 
 
 class Sprite:
-    def __init__(self, image_file: str):
-        self.image = PhotoImage(file=image_file)
+    def __init__(self, image: Union[str, PhotoImage]):
+        """
+        :param image: This must either be a filepath to an image,
+            or the PhotoImage itself.
+        """
+        if isinstance(image, str):
+            self.image = PhotoImage(file=image)
+        else:
+            self.image = image
         self.imageSize = Vector2(self.image.width(), self.image.height())
         self.position = Vector2(0, 0)
 
