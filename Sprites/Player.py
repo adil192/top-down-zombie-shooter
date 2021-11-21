@@ -1,4 +1,4 @@
-from math import pi, atan2
+from math import pi, sin, cos, atan2
 from tkinter import Tk, PhotoImage
 
 from assets.AnimatedSprite import AnimatedSprite
@@ -19,6 +19,9 @@ class Player(AnimatedSprite):
         self.position = Vector2(0, 250)
         self.rotation = pi / 2
         self.speed = 50  # pixels per second
+
+        self.walkingRotation: float = pi / 2
+        self.walkingDirection: Vector2 = Vector2(1, 0)
 
         self.inputUp = 0
         self.inputDown = 0
@@ -56,11 +59,13 @@ class Player(AnimatedSprite):
 
     def update(self, dt):
         super(Player, self).update(dt)
-        self.position += self.forwards * (self.speed * dt)
+        self.position += self.walkingDirection * (self.speed * dt)
 
         dx = self.inputRight - self.inputLeft
         dy = self.inputDown - self.inputUp
-        self.rotation = atan2(dx, dy)
+        self.walkingRotation = atan2(dx, dy)
+        self.walkingDirection = Vector2(sin(self.walkingRotation), cos(self.walkingRotation))
+
         if dx == 0 and dy == 0:
             if self.speed == 0:
                 self.frames = Player.FRAMES_IDLE
