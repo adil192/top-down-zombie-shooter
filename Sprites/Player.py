@@ -27,6 +27,7 @@ class Player(AnimatedSprite):
         self.inputDown = 0
         self.inputLeft = 0
         self.inputRight = 0
+        self.mousePos = Vector2(0.7, 0.5) * Vector2(1600, 900)
 
     def setupKeyBindings(self, tk: Tk):
         tk.bind("<KeyPress-w>", lambda e: self.setInput(up=1))
@@ -37,8 +38,9 @@ class Player(AnimatedSprite):
         tk.bind("<KeyRelease-a>", lambda e: self.setInput(left=0))
         tk.bind("<KeyPress-d>", lambda e: self.setInput(right=1))
         tk.bind("<KeyRelease-d>", lambda e: self.setInput(right=0))
+        tk.bind('<Motion>', lambda e: self.setInput(mouse=Vector2(e.x, e.y)))
 
-    def setInput(self, up: int = None, down: int = None, left: int = None, right: int = None):
+    def setInput(self, up: int = None, down: int = None, left: int = None, right: int = None, mouse: Vector2 = None):
         if up is not None:
             self.inputUp = up
         if down is not None:
@@ -47,6 +49,8 @@ class Player(AnimatedSprite):
             self.inputLeft = left
         if right is not None:
             self.inputRight = right
+        if mouse is not None:
+            self.mousePos = mouse
 
     @property
     def speed(self):
@@ -59,12 +63,18 @@ class Player(AnimatedSprite):
 
     def update(self, dt):
         super(Player, self).update(dt)
-        self.position += self.walkingDirection * (self.speed * dt)
 
+        # translate input into walking direction
         dx = self.inputRight - self.inputLeft
         dy = self.inputDown - self.inputUp
         self.walkingRotation = atan2(dx, dy)
         self.walkingDirection = Vector2(sin(self.walkingRotation), cos(self.walkingRotation))
+
+        # point player in direction of mouse
+        self.forwards = self.mousePos - self.position
+
+        # move
+        self.position += self.walkingDirection * (self.speed * dt)
 
         if dx == 0 and dy == 0:
             if self.speed == 0:

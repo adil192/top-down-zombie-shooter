@@ -1,4 +1,4 @@
-from math import sin, cos, pi
+from math import sin, cos, pi, atan2
 from tkinter import PhotoImage, Canvas, NW
 
 from assets.Vectors import Vector2
@@ -30,13 +30,22 @@ class Sprite:
         self.centrePosition = new - self.imageSize / 2
 
     @property
-    def rotation(self):
+    def rotation(self) -> float:
         return self._rotation
 
     @rotation.setter
-    def rotation(self, new):
+    def rotation(self, new: float):
         self._rotation = new
-        self.forwards = Vector2(sin(new), cos(new))
+        self._forwards = Vector2(sin(new), cos(new))
+
+    @property
+    def forwards(self) -> Vector2:
+        return self._forwards
+
+    @forwards.setter
+    def forwards(self, new: Vector2):
+        self._forwards = new
+        self._rotation = atan2(new.x, new.y)
 
     def update(self, dt):
         """
