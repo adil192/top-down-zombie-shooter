@@ -9,8 +9,8 @@ if TYPE_CHECKING:
 
 HEART_SIZE: int = 32
 HEART_PADDING: int = 5
-HEART_FULL: PhotoImage = PhotoImage(file="images/Health/2764.png")
-HEART_BROKEN: PhotoImage = PhotoImage(file="images/Health/1f494.png")
+HEART_FULL: PhotoImage = PhotoImage(file="images/Emojis/2764.png")
+HEART_BROKEN: PhotoImage = PhotoImage(file="images/Emojis/1f494.png")
 
 
 class HealthIndicator(ISprite):

@@ -18,7 +18,7 @@ This is the repository for the Python Coursework named: 16321-Cwk-S-Python Cours
 
 - License: [![CC0](https://opengameart.org/sites/default/files/license_images/cc0.png)CC0](http://creativecommons.org/publicdomain/zero/1.0/)
 
-### JoyPixels heart emojis (images/Health)
+### JoyPixels emojis (images/Emojis)
 
 - https://www.joypixels.com/emoji by JoyPixels
 
