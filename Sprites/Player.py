@@ -12,7 +12,9 @@ class Player(AnimatedSprite):
         AnimatedSprite.getFramesWithFilePattern("images/Top_Down_Survivor/handgun/idle/survivor-idle_handgun_{0}.png")
     FRAMES_MOVE: List[PhotoImage] =\
         AnimatedSprite.getFramesWithFilePattern("images/Top_Down_Survivor/handgun/move/survivor-move_handgun_{0}.png")
+
     MAX_SPEED: float = 100
+    COLLIDER_WIDTH: float = 50
 
     def __init__(self):
         super().__init__(self.__class__.FRAMES_IDLE)
@@ -84,3 +86,8 @@ class Player(AnimatedSprite):
             if self.speed > 0:
                 self.frames = self.__class__.FRAMES_MOVE
             self.speed = self.__class__.MAX_SPEED
+
+    def attacked(self):
+        # todo: decrease hp
+        print("attacked")
+        pass

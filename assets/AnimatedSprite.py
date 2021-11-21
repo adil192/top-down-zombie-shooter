@@ -56,7 +56,11 @@ class AnimatedSprite(Sprite):
         if frame >= len(self.frames):
             frame = 0
             self.cycleTime = 0
+            self.cycleEnded()
         self.image = self.frames[frame]
+
+    def cycleEnded(self):
+        pass
 
     def draw(self, canvas: Canvas):
         super(AnimatedSprite, self).draw(canvas)

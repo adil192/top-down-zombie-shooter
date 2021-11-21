@@ -26,7 +26,7 @@ class Game:
         self.player.setupKeyBindings(self.tk)
         self.sprites.append(self.player)
 
-        self.zombie = Zombie()
+        self.zombie = Zombie(self.player)
         self.sprites.append(self.zombie)
 
         self.update()
