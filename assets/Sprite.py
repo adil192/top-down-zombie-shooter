@@ -12,13 +12,24 @@ class Sprite:
         :param image: This must either be a filepath to an image,
             or the PhotoImage itself.
         """
+        self.halfImageSize = Vector2(0, 0)
+        self.position = Vector2(0, 0)
+        self.rotation = 0
+
         if isinstance(image, str):
             self.image = PhotoImage(file=image)
         else:
             self.image = image
-        self.imageSize = Vector2(self.image.width(), self.image.height())
-        self.position = Vector2(0, 0)
-        self.rotation = 0
+
+    @property
+    def image(self):
+        return self.__image
+
+    @image.setter
+    def image(self, new: PhotoImage):
+        self.__image = new
+        self.halfImageSize = Vector2(new.width() / 2, new.height() / 2)
+        self.topLeftPosition = self.position - self.halfImageSize
 
     @property
     def position(self):
@@ -27,7 +38,7 @@ class Sprite:
     @position.setter
     def position(self, new: Vector2):
         self._pos = new
-        self.centrePosition = new - self.imageSize / 2
+        self.topLeftPosition = new - self.halfImageSize
 
     @property
     def rotation(self) -> float:
@@ -54,4 +65,4 @@ class Sprite:
         pass
 
     def draw(self, canvas: Canvas):
-        canvas.create_image(self.centrePosition.x, self.centrePosition.y, image=self.image, anchor=NW)
+        canvas.create_image(self.topLeftPosition.x, self.topLeftPosition.y, image=self.image, anchor=NW)

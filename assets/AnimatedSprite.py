@@ -49,15 +49,6 @@ class AnimatedSprite(Sprite):
             self._frameInterval = new
             self._cycleLength = new * len(self.frames)
 
-    @property
-    def position(self):
-        return self._pos
-
-    @position.setter
-    def position(self, new: Vector2):
-        self._pos = new
-        self.centrePosition = new - self.imageSize / 2
-
     def update(self, dt):
         super(AnimatedSprite, self).update(dt)
         self.cycleTime += dt

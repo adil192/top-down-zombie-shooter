@@ -16,7 +16,7 @@ class Player(AnimatedSprite):
 
     def __init__(self):
         super().__init__(Player.FRAMES_IDLE)
-        self.position = Vector2(0, 250)
+        self.position = Vector2(self.halfImageSize.x, 0.5 * 900)
         self.rotation = pi / 2
         self.speed = 50  # pixels per second
 
