@@ -26,6 +26,9 @@ class Game:
         self.player.setupKeyBindings(self.tk)
         self.sprites.append(self.player)
 
+        self.zombie = Zombie()
+        self.sprites.append(self.zombie)
+
         self.update()
         self.draw()
 
@@ -49,6 +52,7 @@ if __name__ == "__main__":
     from assets.Vectors import Vector2
 
     from Sprites.Player import Player
+    from Sprites.Zombie import Zombie
 
     from typing import List
 
