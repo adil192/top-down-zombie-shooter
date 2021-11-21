@@ -22,6 +22,8 @@ class Player(AnimatedSprite):
         self.rotation = pi / 2
         self.speed = self.__class__.MAX_SPEED  # pixels per second
 
+        self.hearts = 5
+
         self.walkingRotation: float = pi / 2
         self.walkingDirection: Vector2 = Vector2(1, 0)
 
@@ -90,4 +92,5 @@ class Player(AnimatedSprite):
     def attacked(self):
         # todo: decrease hp
         print("attacked")
+        self.hearts -= 1
         pass

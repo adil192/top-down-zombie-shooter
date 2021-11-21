@@ -29,6 +29,8 @@ class Game:
         self.zombie = Zombie(self.player)
         self.sprites.append(self.zombie)
 
+        self.sprites.append(HealthIndicator(self.player))
+
         self.update()
         self.draw()
 
@@ -52,6 +54,7 @@ if __name__ == "__main__":
     from assets.ISprite import ISprite
     from assets.Vectors import Vector2
 
+    from Sprites.HealthIndicator import HealthIndicator
     from Sprites.Player import Player
     from Sprites.Zombie import Zombie
 
