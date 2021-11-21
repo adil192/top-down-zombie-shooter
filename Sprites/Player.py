@@ -12,13 +12,13 @@ class Player(AnimatedSprite):
         AnimatedSprite.getFramesWithFilePattern("images/Top_Down_Survivor/handgun/idle/survivor-idle_handgun_{0}.png")
     FRAMES_MOVE: List[PhotoImage] =\
         AnimatedSprite.getFramesWithFilePattern("images/Top_Down_Survivor/handgun/move/survivor-move_handgun_{0}.png")
-    MAX_SPEED: float = 50
+    MAX_SPEED: float = 100
 
     def __init__(self):
-        super().__init__(Player.FRAMES_IDLE)
+        super().__init__(self.__class__.FRAMES_IDLE)
         self.position = Vector2(self.halfImageSize.x, 0.5 * 900)
         self.rotation = pi / 2
-        self.speed = 50  # pixels per second
+        self.speed = self.__class__.MAX_SPEED  # pixels per second
 
         self.walkingRotation: float = pi / 2
         self.walkingDirection: Vector2 = Vector2(1, 0)
@@ -62,7 +62,7 @@ class Player(AnimatedSprite):
         self.cycleLength = max(1, new / 100)
 
     def update(self, dt):
-        super(Player, self).update(dt)
+        super(self.__class__, self).update(dt)
 
         # translate input into walking direction
         dx = self.inputRight - self.inputLeft
@@ -78,9 +78,9 @@ class Player(AnimatedSprite):
 
         if dx == 0 and dy == 0:
             if self.speed == 0:
-                self.frames = Player.FRAMES_IDLE
+                self.frames = self.__class__.FRAMES_IDLE
             self.speed = 0
         else:
             if self.speed > 0:
-                self.frames = Player.FRAMES_MOVE
-            self.speed = Player.MAX_SPEED
+                self.frames = self.__class__.FRAMES_MOVE
+            self.speed = self.__class__.MAX_SPEED
