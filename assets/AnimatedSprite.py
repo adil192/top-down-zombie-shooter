@@ -62,9 +62,6 @@ class AnimatedSprite(Sprite):
     def cycleEnded(self):
         pass
 
-    def draw(self, canvas: Canvas):
-        super(AnimatedSprite, self).draw(canvas)
-
     @staticmethod
     def getFramesWithFilePattern(file_pattern: str) -> List[PhotoImage]:
         i = 0

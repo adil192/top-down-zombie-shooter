@@ -20,6 +20,8 @@ class HealthIndicator(ISprite):
         self.maxHearts = self.player.hearts  # assume player starts at max health
 
     def draw(self, canvas: Canvas):
+        if self.hidden:
+            return
         x = 20
         for i in range(1, self.maxHearts + 1):
             canvas.create_image(x, 20, image=(HEART_FULL if self.player.hearts >= i else HEART_BROKEN), anchor=NW)

@@ -7,7 +7,8 @@ from assets.Vectors import Vector2
 class ISprite:
     def __init__(self):
         self.position = Vector2(0, 0)
-        self.rotation = 0
+        self.rotation: float = 0
+        self.hidden: bool = False
 
     @property
     def position(self):
@@ -42,4 +43,5 @@ class ISprite:
         pass
 
     def draw(self, canvas: Canvas):
-        pass
+        if self.hidden:
+            return

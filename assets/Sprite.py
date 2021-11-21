@@ -37,4 +37,6 @@ class Sprite(ISprite):
         self.topLeftPosition = new - self.halfImageSize
 
     def draw(self, canvas: Canvas):
+        if self.hidden:
+            return
         canvas.create_image(self.topLeftPosition.x, self.topLeftPosition.y, image=self.image, anchor=NW)
