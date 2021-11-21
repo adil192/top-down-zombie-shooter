@@ -51,3 +51,6 @@ class Vector2:
             return Vector2(self.x % other.x, self.y % other.y)
         else:
             return Vector2(self.x % other, self.y % other)
+
+    def normalise(self):
+        return self / self.magnitude

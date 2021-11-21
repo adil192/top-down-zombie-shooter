@@ -55,7 +55,7 @@ class Sprite:
 
     @forwards.setter
     def forwards(self, new: Vector2):
-        self._forwards = new
+        self._forwards = new.normalise()
         self._rotation = atan2(new.x, new.y)
 
     def update(self, dt):
