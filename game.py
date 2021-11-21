@@ -20,7 +20,7 @@ class Game:
         self.canvas = Canvas(self.tk, width=1280, height=720, bg="#151f13", cursor="hand2")
         self.canvas.pack(expand=YES, fill=BOTH)
 
-        self.sprites: List[Sprite] = []
+        self.sprites: List[ISprite] = []
 
         self.player = Player()
         self.player.setupKeyBindings(self.tk)
@@ -49,6 +49,7 @@ class Game:
 
 if __name__ == "__main__":
     from assets.Sprite import Sprite
+    from assets.ISprite import ISprite
     from assets.Vectors import Vector2
 
     from Sprites.Player import Player
