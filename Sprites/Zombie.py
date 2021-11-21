@@ -39,6 +39,8 @@ class Zombie(AnimatedSprite):
         self.sqrDistToPlayerLimit = (self.__class__.COLLIDER_WIDTH + self.target_player.__class__.COLLIDER_WIDTH) ** 2
         self.speed = self.__class__.MAX_SPEED  # pixels per second
         self.cycleLength = 2
+
+        self.__priority = ZombiePriority.Moving
         self.priority: ZombiePriority = ZombiePriority.Moving
 
         # has the zombie attacked the player in the current animation cycle (only for ZombiePriority.Attacking)
@@ -50,6 +52,8 @@ class Zombie(AnimatedSprite):
 
     @priority.setter
     def priority(self, new: ZombiePriority):
+        if self.__priority != new:
+            self.cycleTime = 0  # restart animation time if we change it
         self.__priority = new
         if new == ZombiePriority.Moving:
             self.frames = self.__class__.FRAMES_MOVE
