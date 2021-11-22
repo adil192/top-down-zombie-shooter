@@ -27,7 +27,7 @@ class _Bullet(Sprite):
     # bullet speed in pixels per second
     SPEED: float = (1600**2 + 900**2) ** 0.5
 
-    COLLIDER_WIDTH: float = 500  # wider than the actual image (6px x 6px) since the bullet is quite fast
+    COLLIDER_WIDTH: float = 20  # wider than the actual image (6px x 6px) since the bullet is quite fast
 
     def __init__(self, startPos: Vector2, forwards: Vector2, game: "Game"):
         super(_Bullet, self).__init__("images/bullet.png")
@@ -45,7 +45,7 @@ class _Bullet(Sprite):
 
         self.position += self.forwards * (self.__class__.SPEED / 60)
 
-        sqr_collision_threshold = Zombie.COLLIDER_WIDTH + self.__class__.COLLIDER_WIDTH
+        sqr_collision_threshold = (Zombie.COLLIDER_WIDTH + self.__class__.COLLIDER_WIDTH) ** 2
         zombie: Zombie
         for zombie in self.game.zombies.children:
             if (zombie.position - self.position).sqrMagnitude < sqr_collision_threshold:
