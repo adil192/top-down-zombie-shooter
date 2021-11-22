@@ -50,7 +50,9 @@ class _Bullet(Sprite):
         for zombie in self.game.zombies.children:
             if (zombie.position - self.position).sqrMagnitude < sqr_collision_threshold:
                 # collision
-                zombie.shot()
+                killed = zombie.shot()
+                if killed:
+                    self.game.score += 1
                 self.destroy()
 
     def destroy(self):

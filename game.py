@@ -35,6 +35,10 @@ class Game:
 
         self.sprites.append(HealthIndicator(self.player))
 
+        self.score: int = 0
+        self.scoreIndicator = ScoreIndicator(self)
+        self.sprites.append(self.scoreIndicator)
+
         self.pausedIndicator = Sprite("images/Emojis/23f8.png")
         self.pausedIndicator.position = Vector2(1600, 900) / 2
         self.sprites.append(self.pausedIndicator)
@@ -107,6 +111,7 @@ if __name__ == "__main__":
     from Sprites.Bullet import Bullets
     from Sprites.HealthIndicator import HealthIndicator
     from Sprites.Player import Player
+    from Sprites.ScoreIndicator import ScoreIndicator
     from Sprites.Zombie import Zombie
 
     from typing import List

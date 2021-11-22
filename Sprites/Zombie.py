@@ -96,8 +96,13 @@ class Zombie(AnimatedSprite):
         if self.sqrDistToPlayer > self.sqrDistToPlayerLimit:
             self.priority = ZombiePriority.Moving
 
-    def shot(self):
+    def shot(self) -> bool:
+        """
+        :returns: If the zombie has died.
+        """
         self.hearts -= 1
         print(f"Zombie shot: {self.hearts} lives remaining")
         if self.hearts <= 0:
             self.destroyed = True
+            return True
+        return False
