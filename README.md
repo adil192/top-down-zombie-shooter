@@ -4,6 +4,21 @@ This is the repository for the Python Coursework named: 16321-Cwk-S-Python Cours
 
 
 
+## Controls
+
+- WASD - player movement
+- Move mouse and click - aim and shoot
+- Escape key - pause game
+- Control and escape key - boss key, hides screen with excel screenshot
+
+
+
+## Cheat codes
+
+- Type "quick" to move more quickly for 3 seconds.
+
+
+
 ## Images used
 
 ### Animated Top Down Survivor Player (images/Top_Down_Survivor)
