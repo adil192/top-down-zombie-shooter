@@ -13,14 +13,16 @@ class Player(AnimatedSprite):
     FRAMES_MOVE: List[PhotoImage] =\
         AnimatedSprite.getFramesWithFilePattern("images/Top_Down_Survivor/handgun/move/survivor-move_handgun_{0}.png")
 
-    MAX_SPEED: float = 100
+    MAX_SPEED: float = 100  # pixels per second
     COLLIDER_WIDTH: float = 50
 
-    def __init__(self):
+    def __init__(self, tk: Tk):
         super().__init__(self.__class__.FRAMES_IDLE)
+        self.tk: Tk = tk
         self.position = Vector2(self.halfImageSize.x, 0.5 * 900)
         self.rotation = pi / 2
-        self.speed = self.__class__.MAX_SPEED  # pixels per second
+        self.max_speed = self.__class__.MAX_SPEED  # pixels per second
+        self.speed = 0  # pixels per second
 
         self.hearts = 5
 
@@ -33,16 +35,19 @@ class Player(AnimatedSprite):
         self.inputRight = 0
         self.mousePos = Vector2(0.7, 0.5) * Vector2(1600, 900)
 
-    def setupKeyBindings(self, tk: Tk):
-        tk.bind("<KeyPress-w>", lambda e: self.setInput(up=1))
-        tk.bind("<KeyRelease-w>", lambda e: self.setInput(up=0))
-        tk.bind("<KeyPress-s>", lambda e: self.setInput(down=1))
-        tk.bind("<KeyRelease-s>", lambda e: self.setInput(down=0))
-        tk.bind("<KeyPress-a>", lambda e: self.setInput(left=1))
-        tk.bind("<KeyRelease-a>", lambda e: self.setInput(left=0))
-        tk.bind("<KeyPress-d>", lambda e: self.setInput(right=1))
-        tk.bind("<KeyRelease-d>", lambda e: self.setInput(right=0))
-        tk.bind('<Motion>', lambda e: self.setInput(mouse=Vector2(e.x, e.y)))
+        self.setupKeyBindings()
+
+    def setupKeyBindings(self):
+        self.tk.bind("<KeyPress-w>", lambda e: self.setInput(up=1))
+        self.tk.bind("<KeyRelease-w>", lambda e: self.setInput(up=0))
+        self.tk.bind("<KeyPress-s>", lambda e: self.setInput(down=1))
+        self.tk.bind("<KeyRelease-s>", lambda e: self.setInput(down=0))
+        self.tk.bind("<KeyPress-a>", lambda e: self.setInput(left=1))
+        self.tk.bind("<KeyRelease-a>", lambda e: self.setInput(left=0))
+        self.tk.bind("<KeyPress-d>", lambda e: self.setInput(right=1))
+        self.tk.bind("<KeyRelease-d>", lambda e: self.setInput(right=0))
+        self.tk.bind('<Motion>', lambda e: self.setInput(mouse=Vector2(e.x, e.y)))
+        self.tk.bind('quick', lambda e: self.cheatCode("quick"))
 
     def setInput(self, up: int = None, down: int = None, left: int = None, right: int = None, mouse: Vector2 = None):
         if up is not None:
@@ -87,7 +92,15 @@ class Player(AnimatedSprite):
         else:
             if self.speed > 0:
                 self.frames = self.__class__.FRAMES_MOVE
-            self.speed = self.__class__.MAX_SPEED
+            self.speed = self.max_speed
+
+    def cheatCode(self, code: str, reverse: bool = False):
+        if code == "quick":
+            if reverse:
+                self.max_speed = self.__class__.MAX_SPEED
+            else:
+                self.max_speed = 2 * self.__class__.MAX_SPEED
+                self.tk.after(3000, lambda: self.cheatCode(code, reverse=True))
 
     def attacked(self):
         # todo: decrease hp

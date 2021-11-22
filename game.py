@@ -22,8 +22,8 @@ class Game:
 
         self.sprites: List[ISprite] = []
 
-        self.player = Player()
-        self.player.setupKeyBindings(self.tk)
+        self.player = Player(self.tk)
+        self.player.setupKeyBindings()
         self.sprites.append(self.player)
 
         self.zombie = Zombie(self.player)
