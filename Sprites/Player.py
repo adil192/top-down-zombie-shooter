@@ -161,7 +161,7 @@ class Player(AnimatedSprite):
             self.game.tk.after(duration, lambda: self.cheatCode(code, reverse=True))
 
     def attacked(self):
-        # todo: decrease hp
-        print("attacked")
         self.hearts -= 1
-        pass
+        if self.hearts <= 0:
+            self.game.gameOver()
+            self.destroyed = True

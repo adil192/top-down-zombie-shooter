@@ -119,6 +119,9 @@ class Game:
                 self.drawScheduled = True
                 self.draw()
 
+    def gameOver(self):
+        pass
+
 
 if __name__ == "__main__":
     from assets.Sprite import Sprite
