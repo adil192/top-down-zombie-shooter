@@ -3,6 +3,7 @@ Game window is 1600x900
 """
 
 from tkinter import *
+from math import floor
 
 
 tk = Tk()
@@ -30,7 +31,6 @@ class Game:
         self.sprites.append(self.player)
 
         self.zombies = SpriteGroup()
-        self.zombies.children.append(Zombie(self.player))
         self.sprites.append(self.zombies)
 
         self.sprites.append(HealthIndicator(self.player))
@@ -47,6 +47,8 @@ class Game:
         self.bossKeyBg.position = Vector2(1600, 900) / 2
         self.sprites.append(self.bossKeyBg)
 
+        self.targetNumZombies: float = 2.75
+
         self.updateScheduled: bool = False
         self.drawScheduled: bool = False
         self.paused = False
@@ -57,6 +59,9 @@ class Game:
     def update(self):
         for sprite in self.sprites:
             sprite.update(UPDATE_INTERVAL / 1000)
+
+        if len(self.zombies.children) < self.targetNumZombies - 1:
+            self.zombies.children.append(Zombie(self.player))
 
         self.updateScheduled = False
         if not self.paused:
@@ -72,6 +77,10 @@ class Game:
         if not self.paused:
             self.drawScheduled = True
             self.tk.after(DRAW_INTERVAL, self.draw)
+
+    def OnZombieKilled(self):
+        self.targetNumZombies += 0.25
+        self.score += 1
 
     def togglePaused(self):
         self.paused = not self.paused

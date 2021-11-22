@@ -52,7 +52,7 @@ class _Bullet(Sprite):
                 # collision
                 killed = zombie.shot()
                 if killed:
-                    self.game.score += 1
+                    self.game.OnZombieKilled()
                 self.destroy()
 
     def destroy(self):
