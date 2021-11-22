@@ -78,7 +78,8 @@ class Zombie(AnimatedSprite):
         if self.priority == ZombiePriority.Moving:
             self.position += self.forwards * (self.speed * dt)
         elif self.priority == ZombiePriority.Attacking:
-            if not self.hasAttacked and self.cycleTime >= self.cycleLength * self.__class__.FRAMES_ATTACK_CRITICAL_POINT:
+            if not self.hasAttacked and self.sqrDistToPlayer < self.sqrDistToPlayerLimit \
+                    and self.cycleTime >= self.cycleLength * self.__class__.FRAMES_ATTACK_CRITICAL_POINT:
                 self.target_player.attacked()
                 self.hasAttacked = True
 
