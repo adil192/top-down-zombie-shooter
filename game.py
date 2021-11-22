@@ -34,11 +34,17 @@ class Game:
         self.pausedIndicator = Sprite("images/Emojis/23f8.png")
         self.pausedIndicator.position = Vector2(1600, 900) / 2
         self.sprites.append(self.pausedIndicator)
+
+        self.bossKeyBg = Sprite("images/BossKeyBg.png")
+        self.bossKeyBg.position = Vector2(1600, 900) / 2
+        self.sprites.append(self.bossKeyBg)
+
         self.updateScheduled: bool = False
         self.drawScheduled: bool = False
         self.paused = False
 
         tk.bind('<Escape>', lambda e: self.togglePaused())
+        tk.bind('<Control-Escape>', lambda e: self.toggleBossKey())
 
     def update(self):
         for sprite in self.sprites:
@@ -62,6 +68,14 @@ class Game:
     def togglePaused(self):
         self.paused = not self.paused
 
+    def toggleBossKey(self):
+        if self.paused:
+            self.paused = False
+        else:
+            self.paused = True
+            self.pausedIndicator.hidden = True
+            self.bossKeyBg.hidden = False
+
     @property
     def paused(self) -> bool:
         return self.__paused
@@ -70,6 +84,7 @@ class Game:
     def paused(self, paused: bool):
         self.__paused = paused
         self.pausedIndicator.hidden = not self.paused
+        self.bossKeyBg.hidden = True
         if not paused:
             if not self.updateScheduled:
                 self.updateScheduled = True
