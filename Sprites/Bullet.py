@@ -16,8 +16,10 @@ class Bullets(SpriteGroup):
         super().__init__()
         self.game: Game = game
 
-    def newBullet(self, startPos: Vector2, forwards: Vector2):
-        self.children.append(_Bullet(startPos, forwards, self.game))
+    def newBullet(self, startPos: Vector2, forwards: Vector2) -> "_Bullet":
+        bullet = _Bullet(startPos, forwards, self.game)
+        self.children.append(bullet)
+        return bullet
 
 
 class _Bullet(Sprite):

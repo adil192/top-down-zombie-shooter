@@ -9,6 +9,7 @@ from Sprites.Bullet import Bullets
 from typing import List, TYPE_CHECKING
 if TYPE_CHECKING:
     from game import Game
+    from Sprites.Bullet import _Bullet
 
 
 class _Gun(Enum):
@@ -105,8 +106,13 @@ class Player(AnimatedSprite):
             self.framesMove = self.__class__.FRAMES_MOVE_SHOTGUN
 
     def shoot(self):
-        self.bullets.newBullet(self.position, self.mousePos - self.position)
-        pass
+        bulletDirection = self.mousePos - self.position
+        if self.gun == _Gun.Shotgun:
+            for i in range(3):
+                bullet: "_Bullet" = self.bullets.newBullet(self.position, bulletDirection)
+                bullet.rotation += (i-1) * 0.1  # bullets are 0.1 radians apart
+        else:
+            self.bullets.newBullet(self.position, bulletDirection)
 
     def update(self, dt):
         super(self.__class__, self).update(dt)
