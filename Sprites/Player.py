@@ -135,17 +135,11 @@ class Player(AnimatedSprite):
     def cheatCode(self, code: str, reverse: bool = False):
         duration: int = 3000
         if code == "quick":
-            if reverse:
-                self.max_speed = self.__class__.MAX_SPEED
-            else:
-                self.max_speed = 2 * self.__class__.MAX_SPEED
-                duration = 3000
+            self.max_speed = self.__class__.MAX_SPEED * (1 if reverse else 2)
+            duration = 3000
         elif code == "ohno":
-            if reverse:
-                self.gun = _Gun.Handgun
-            else:
-                self.gun = _Gun.Shotgun
-                duration = 3000
+            self.gun = _Gun.Handgun if reverse else _Gun.Shotgun
+            duration = 3000
         else:
             return
 
