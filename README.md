@@ -16,7 +16,7 @@ This is the repository for the Python Coursework named: 16321-Cwk-S-Python Cours
 ## Cheat codes
 
 - Type "quick" to move more quickly for 3 seconds.
-
+- Type "ohno" to switch to the shotgun for 3 seconds.
 
 
 ## Images used

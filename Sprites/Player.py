@@ -1,5 +1,6 @@
 from math import pi, sin, cos, atan2
-from tkinter import Tk, PhotoImage
+from tkinter import PhotoImage
+from enum import Enum, auto as enum_next
 
 from assets.AnimatedSprite import AnimatedSprite
 from assets.Vectors import Vector2
@@ -10,17 +11,26 @@ if TYPE_CHECKING:
     from game import Game
 
 
+class _Gun(Enum):
+    Handgun = enum_next()
+    Shotgun = enum_next()
+
+
 class Player(AnimatedSprite):
-    FRAMES_IDLE: List[PhotoImage] =\
+    FRAMES_IDLE_HANDGUN: List[PhotoImage] =\
         AnimatedSprite.getFramesWithFilePattern("images/Top_Down_Survivor/handgun/idle/survivor-idle_handgun_{0}.png")
-    FRAMES_MOVE: List[PhotoImage] =\
+    FRAMES_MOVE_HANDGUN: List[PhotoImage] =\
         AnimatedSprite.getFramesWithFilePattern("images/Top_Down_Survivor/handgun/move/survivor-move_handgun_{0}.png")
+    FRAMES_IDLE_SHOTGUN: List[PhotoImage] =\
+        AnimatedSprite.getFramesWithFilePattern("images/Top_Down_Survivor/shotgun/idle/survivor-idle_shotgun_{0}.png")
+    FRAMES_MOVE_SHOTGUN: List[PhotoImage] =\
+        AnimatedSprite.getFramesWithFilePattern("images/Top_Down_Survivor/shotgun/move/survivor-move_shotgun_{0}.png")
 
     MAX_SPEED: float = 100  # pixels per second
     COLLIDER_WIDTH: float = 50
 
     def __init__(self, game: "Game", bullets: Bullets):
-        super().__init__(self.__class__.FRAMES_IDLE)
+        super().__init__(self.__class__.FRAMES_IDLE_HANDGUN)
         self.game: Game = game
         self.bullets: Bullets = bullets
 
@@ -40,6 +50,8 @@ class Player(AnimatedSprite):
         self.inputRight = 0
         self.mousePos = Vector2(0.7, 0.5) * Vector2(1600, 900)
 
+        self.gun: _Gun = _Gun.Handgun
+
         self.setupKeyBindings()
 
     def setupKeyBindings(self):
@@ -52,8 +64,10 @@ class Player(AnimatedSprite):
         self.game.tk.bind("<KeyPress-d>", lambda e: self.setInput(right=1))
         self.game.tk.bind("<KeyRelease-d>", lambda e: self.setInput(right=0))
         self.game.tk.bind('<Motion>', lambda e: self.setInput(mouse=Vector2(e.x, e.y)))
-        self.game.tk.bind('quick', lambda e: self.cheatCode("quick"))
         self.game.tk.bind("<Button-1>", lambda e: self.shoot())
+
+        self.game.tk.bind('quick', lambda e: self.cheatCode("quick"))
+        self.game.tk.bind('ohno', lambda e: self.cheatCode("ohno"))
 
     def setInput(self, up: int = None, down: int = None, left: int = None, right: int = None, mouse: Vector2 = None):
         if up is not None:
@@ -76,6 +90,20 @@ class Player(AnimatedSprite):
         self._speed = new
         self.cycleLength = max(1, new / 100)
 
+    @property
+    def gun(self) -> _Gun:
+        return self._gun
+
+    @gun.setter
+    def gun(self, gun: _Gun):
+        self._gun = gun
+        if gun == _Gun.Handgun:
+            self.framesIdle = self.__class__.FRAMES_IDLE_HANDGUN
+            self.framesMove = self.__class__.FRAMES_MOVE_HANDGUN
+        elif gun == _Gun.Shotgun:
+            self.framesIdle = self.__class__.FRAMES_IDLE_SHOTGUN
+            self.framesMove = self.__class__.FRAMES_MOVE_SHOTGUN
+
     def shoot(self):
         self.bullets.newBullet(self.position, self.mousePos - self.position)
         pass
@@ -97,20 +125,32 @@ class Player(AnimatedSprite):
 
         if dx == 0 and dy == 0:
             if self.speed == 0:
-                self.frames = self.__class__.FRAMES_IDLE
+                self.frames = self.framesIdle
             self.speed = 0
         else:
             if self.speed > 0:
-                self.frames = self.__class__.FRAMES_MOVE
+                self.frames = self.framesMove
             self.speed = self.max_speed
 
     def cheatCode(self, code: str, reverse: bool = False):
+        duration: int = 3000
         if code == "quick":
             if reverse:
                 self.max_speed = self.__class__.MAX_SPEED
             else:
                 self.max_speed = 2 * self.__class__.MAX_SPEED
-                self.game.tk.after(3000, lambda: self.cheatCode(code, reverse=True))
+                duration = 3000
+        elif code == "ohno":
+            if reverse:
+                self.gun = _Gun.Handgun
+            else:
+                self.gun = _Gun.Shotgun
+                duration = 3000
+        else:
+            return
+
+        if not reverse:
+            self.game.tk.after(duration, lambda: self.cheatCode(code, reverse=True))
 
     def attacked(self):
         # todo: decrease hp
