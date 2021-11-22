@@ -13,6 +13,9 @@ DRAW_INTERVAL = int(1000/60)  # 60 fps
 
 
 class Game:
+    # time in milliseconds between each zombie spawn
+    ZOMBIE_SPAWN_COOLDOWN: int = 500
+
     def __init__(self, master):
         self.tk = master
         self.tk.geometry("1600x900")
@@ -48,6 +51,7 @@ class Game:
         self.sprites.append(self.bossKeyBg)
 
         self.targetNumZombies: float = 2.75
+        self.dontSpawnZombie: bool = False
 
         self.updateScheduled: bool = False
         self.drawScheduled: bool = False
@@ -60,13 +64,18 @@ class Game:
         for sprite in self.sprites:
             sprite.update(UPDATE_INTERVAL / 1000)
 
-        if len(self.zombies.children) < self.targetNumZombies - 1:
+        if not self.dontSpawnZombie and len(self.zombies.children) < self.targetNumZombies - 1:
             self.zombies.children.append(Zombie(self.player))
+            self.dontSpawnZombie = True
+            self.tk.after(self.__class__.ZOMBIE_SPAWN_COOLDOWN, self._unlockZombieSpawn)
 
         self.updateScheduled = False
         if not self.paused:
             self.updateScheduled = True
             self.tk.after(UPDATE_INTERVAL, self.update)
+
+    def _unlockZombieSpawn(self):
+        self.dontSpawnZombie = False
 
     def draw(self):
         self.canvas.delete('all')
