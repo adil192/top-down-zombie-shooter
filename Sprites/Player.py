@@ -54,6 +54,7 @@ class Player(AnimatedSprite):
         self.gun: _Gun = _Gun.Handgun
 
         self.setupKeyBindings()
+        self.activeCheatCodes: List[str] = []
 
     def setupKeyBindings(self):
         self.game.tk.bind("<KeyPress-w>", lambda e: self.setInput(up=1))
@@ -139,6 +140,13 @@ class Player(AnimatedSprite):
             self.speed = self.max_speed
 
     def cheatCode(self, code: str, reverse: bool = False):
+        if (code in self.activeCheatCodes) != reverse:
+            return
+        if reverse:
+            self.activeCheatCodes.remove(code)
+        else:
+            self.activeCheatCodes.append(code)
+
         duration: int = 3000
         if code == "quick":
             self.max_speed = self.__class__.MAX_SPEED * (1 if reverse else 2)
