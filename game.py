@@ -31,22 +31,52 @@ class Game:
 
         self.sprites.append(HealthIndicator(self.player))
 
-        self.update()
-        self.draw()
+        self.pausedIndicator = Sprite("images/Emojis/23f8.png")
+        self.pausedIndicator.position = Vector2(1600, 900) / 2
+        self.sprites.append(self.pausedIndicator)
+        self.updateScheduled: bool = False
+        self.drawScheduled: bool = False
+        self.paused = False
+
+        tk.bind('<Escape>', lambda e: self.togglePaused())
 
     def update(self):
         for sprite in self.sprites:
             sprite.update(UPDATE_INTERVAL / 1000)
 
-        self.tk.after(UPDATE_INTERVAL, self.update)
+        self.updateScheduled = False
+        if not self.paused:
+            self.updateScheduled = True
+            self.tk.after(UPDATE_INTERVAL, self.update)
 
     def draw(self):
         self.canvas.delete('all')
-        
         for sprite in self.sprites:
             sprite.draw(self.canvas)
 
-        self.tk.after(DRAW_INTERVAL, self.draw)
+        self.drawScheduled = False
+        if not self.paused:
+            self.drawScheduled = True
+            self.tk.after(DRAW_INTERVAL, self.draw)
+
+    def togglePaused(self):
+        self.paused = not self.paused
+
+    @property
+    def paused(self) -> bool:
+        return self.__paused
+
+    @paused.setter
+    def paused(self, paused: bool):
+        self.__paused = paused
+        self.pausedIndicator.hidden = not self.paused
+        if not paused:
+            if not self.updateScheduled:
+                self.updateScheduled = True
+                self.update()
+            if not self.drawScheduled:
+                self.drawScheduled = True
+                self.draw()
 
 
 if __name__ == "__main__":
