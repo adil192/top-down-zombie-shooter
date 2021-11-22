@@ -27,7 +27,7 @@ class _Bullet(Sprite):
     # bullet speed in pixels per second
     SPEED: float = (1600**2 + 900**2) ** 0.5
 
-    COLLIDER_WIDTH: float = 50  # wider than the actual image (6px x 6px) since the bullet is quite fast
+    COLLIDER_WIDTH: float = 500  # wider than the actual image (6px x 6px) since the bullet is quite fast
 
     def __init__(self, startPos: Vector2, forwards: Vector2, game: "Game"):
         super(_Bullet, self).__init__("images/bullet.png")

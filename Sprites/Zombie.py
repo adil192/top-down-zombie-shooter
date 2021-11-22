@@ -27,7 +27,7 @@ class Zombie(AnimatedSprite):
         AnimatedSprite.getFramesWithFilePattern("images/Top_Down_Zombie/skeleton-move_{0}.png")
 
     MAX_SPEED: float = 50
-    COLLIDER_WIDTH: float = 50
+    COLLIDER_WIDTH: float = 100
 
     def __init__(self, target_player: "Player"):
         super().__init__(self.__class__.FRAMES_MOVE)
