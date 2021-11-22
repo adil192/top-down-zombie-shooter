@@ -15,5 +15,12 @@ class ScoreIndicator(ISprite):
         self.font_size = 30
         self.font = f'Helvetica {self.font_size} bold'
 
+        self.score = self.game.score
+
+    def update(self, dt):
+        if self.game.player.destroyed:
+            return 
+        self.score = self.game.score
+
     def draw(self, canvas: Canvas):
-        canvas.create_text(1600-20, 0+20, text=self.game.score, fill="white", font=self.font, anchor=NE)
+        canvas.create_text(1600-20, 0+20, text=self.score, fill="white", font=self.font, anchor=NE)
