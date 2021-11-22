@@ -45,6 +45,8 @@ class Zombie(AnimatedSprite):
 
         # has the zombie attacked the player in the current animation cycle (only for ZombiePriority.Attacking)
         self.hasAttacked = False
+        # the zombie's HP
+        self.hearts = 10
 
     @property
     def priority(self) -> ZombiePriority:
@@ -94,3 +96,8 @@ class Zombie(AnimatedSprite):
         if self.sqrDistToPlayer > self.sqrDistToPlayerLimit:
             self.priority = ZombiePriority.Moving
 
+    def shot(self):
+        self.hearts -= 1
+        print(f"Zombie shot: {self.hearts} lives remaining")
+        if self.hearts <= 0:
+            self.destroyed = True

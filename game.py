@@ -22,12 +22,16 @@ class Game:
 
         self.sprites: List[ISprite] = []
 
-        self.player = Player(self.tk)
+        self.bullets = Bullets(self)
+        self.sprites.append(self.bullets)
+
+        self.player = Player(self, self.bullets)
         self.player.setupKeyBindings()
         self.sprites.append(self.player)
 
-        self.zombie = Zombie(self.player)
-        self.sprites.append(self.zombie)
+        self.zombies = SpriteGroup()
+        self.zombies.children.append(Zombie(self.player))
+        self.sprites.append(self.zombies)
 
         self.sprites.append(HealthIndicator(self.player))
 
@@ -96,9 +100,11 @@ class Game:
 
 if __name__ == "__main__":
     from assets.Sprite import Sprite
+    from assets.SpriteGroup import SpriteGroup
     from assets.ISprite import ISprite
     from assets.Vectors import Vector2
 
+    from Sprites.Bullet import Bullets
     from Sprites.HealthIndicator import HealthIndicator
     from Sprites.Player import Player
     from Sprites.Zombie import Zombie

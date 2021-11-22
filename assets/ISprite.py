@@ -9,6 +9,7 @@ class ISprite:
         self.position = Vector2(0, 0)
         self.rotation: float = 0
         self.hidden: bool = False
+        self.destroyed: bool = False
 
     @property
     def position(self):
