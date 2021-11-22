@@ -1,3 +1,4 @@
+from random import random
 from math import pi, sin, cos, atan2
 from tkinter import Tk, PhotoImage
 from enum import Enum, auto as enum_next
@@ -33,7 +34,7 @@ class Zombie(AnimatedSprite):
         super().__init__(self.__class__.FRAMES_MOVE)
         self.target_player = target_player
 
-        self.position = Vector2(1600 - self.halfImageSize.x, 0.5 * 900)
+        self.position = Vector2(1600 - self.halfImageSize.x, random() * 900)
         self.rotation = -pi / 2
         self.sqrDistToPlayer = 1600
         self.sqrDistToPlayerLimit = (self.__class__.COLLIDER_WIDTH + self.target_player.__class__.COLLIDER_WIDTH) ** 2
