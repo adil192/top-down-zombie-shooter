@@ -26,7 +26,7 @@ class Game:
         self.tk.geometry("1600x900")
         self.tk.resizable(False, False)
 
-        self.canvas = Canvas(self.tk, width=1280, height=720, bg=COLOR_GREEN, cursor="hand2")
+        self.canvas = Canvas(self.tk, width=1280, height=720, bg=COLOR_GREEN, cursor="hand2", highlightthickness=0)
         self.canvas.pack(expand=YES, fill=BOTH)
 
         self.isGameOver: bool = False
