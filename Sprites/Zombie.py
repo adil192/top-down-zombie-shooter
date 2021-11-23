@@ -102,7 +102,6 @@ class Zombie(AnimatedSprite):
         :returns: If the zombie has died.
         """
         self.hearts -= 1
-        print(f"Zombie shot: {self.hearts} lives remaining")
         if self.hearts <= 0:
             self.destroyed = True
             return True
