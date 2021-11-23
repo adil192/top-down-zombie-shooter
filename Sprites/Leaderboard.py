@@ -15,6 +15,7 @@ class Leaderboard(ISprite):
     MAX_RECORDS = 5
 
     TITLE = "Leaderboard"
+    HEADER_NUM = "#"
     HEADER_SCORE = "score"
     HEADER_DATE = "date"
     HEADER_NAME = "name"
@@ -40,10 +41,10 @@ class Leaderboard(ISprite):
             Leaderboard.writeLeaderboard(leaderboard)  # save to txt file
 
         self.lines = [
-            Leaderboard._formatRow(Leaderboard.HEADER_SCORE, Leaderboard.HEADER_DATE, Leaderboard.HEADER_NAME)
+            Leaderboard._formatRow(Leaderboard.HEADER_NUM, Leaderboard.HEADER_SCORE, Leaderboard.HEADER_DATE, Leaderboard.HEADER_NAME)
         ]
-        for line in leaderboard:
-            self.lines.append(Leaderboard._formatRow(*line))
+        for i in range(len(leaderboard)):
+            self.lines.append(Leaderboard._formatRow(i+1, *leaderboard[i]))
 
         self.line_padding = 20
         self.font_size = 20
@@ -61,8 +62,8 @@ class Leaderboard(ISprite):
             y += self.font_size + self.line_padding
 
     @staticmethod
-    def _formatRow(score: Union[int, str], date: str, name: str):
-        return f"|{score:^11}|{date:^14}| {name:^15} |"
+    def _formatRow(n: Union[int, str], score: Union[int, str], date: str, name: str):
+        return f"| {n} |{score:^11}|{date:^14}| {name:^15} |"
 
     @staticmethod
     def parseLeaderboardLine(line: str) -> (Union[int, str], str, str):
