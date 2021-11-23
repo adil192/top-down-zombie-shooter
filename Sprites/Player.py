@@ -107,6 +107,9 @@ class Player(AnimatedSprite):
             self.framesMove = self.__class__.FRAMES_MOVE_SHOTGUN
 
     def shoot(self):
+        if self.game.paused:
+            return
+
         bulletDirection = self.mousePos - self.position
         if self.gun == _Gun.Shotgun:
             for i in range(3):
