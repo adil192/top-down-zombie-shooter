@@ -67,7 +67,7 @@ class Game:
         self.pausedIndicator.hidden = True
 
         self.font = "Helvetica 15"
-        self.usernameInput = Entry(self.tk, width=23, font=self.font, justify=CENTER)
+        self.usernameInput = Entry(self.tk, width=23, font=self.font, justify=CENTER, bg="white")
         self.usernameInput.bind("<Return>", lambda e: self.submitUsername())
         self.usernameBtn = Button(self.tk, text="Start", bg="white", fg=COLOR_GREEN, font=self.font, command=self.submitUsername)
         self.canvas.create_text(800, 400, text="Please enter a username", fill="white", font=self.font)
@@ -80,7 +80,8 @@ class Game:
     def submitUsername(self):
         username = self.usernameInput.get()
         if len(username) == 0:
-            # todo: show error
+            self.usernameInput.configure(bg="red")
+            self.tk.after(300, lambda: self.usernameInput.configure(bg="white"))
             return
         self.username = username
         self.paused = False
