@@ -128,6 +128,8 @@ class Game:
         self.isGameOver = True
         self.paused = True
         self.pausedIndicator.hidden = True
+        
+        self.scoreIndicator.setPosition(ScoreIndicatorPos.CENTRE)
 
 
 if __name__ == "__main__":
@@ -139,7 +141,7 @@ if __name__ == "__main__":
     from Sprites.Bullet import Bullets
     from Sprites.HealthIndicator import HealthIndicator
     from Sprites.Player import Player
-    from Sprites.ScoreIndicator import ScoreIndicator
+    from Sprites.ScoreIndicator import ScoreIndicator, ScoreIndicatorPos
     from Sprites.Zombie import Zombie
 
     from typing import List
