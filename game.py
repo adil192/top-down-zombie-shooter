@@ -3,6 +3,7 @@ Game window is 1600x900
 """
 
 from tkinter import *
+from datetime import date
 from math import floor
 
 
@@ -25,6 +26,7 @@ class Game:
         self.canvas.pack(expand=YES, fill=BOTH)
 
         self.isGameOver: bool = False
+        self.username = "Adil"  # todo: ask user for their username
 
         self.sprites: List[ISprite] = []
 
@@ -128,7 +130,8 @@ class Game:
         self.isGameOver = True
         self.paused = True
         self.pausedIndicator.hidden = True
-        
+
+        self.sprites.append(Leaderboard(self.score, date.today().strftime("%d-%m-%Y"), self.username))
         self.scoreIndicator.setPosition(ScoreIndicatorPos.CENTRE)
 
 
@@ -140,6 +143,7 @@ if __name__ == "__main__":
 
     from Sprites.Bullet import Bullets
     from Sprites.HealthIndicator import HealthIndicator
+    from Sprites.Leaderboard import Leaderboard
     from Sprites.Player import Player
     from Sprites.ScoreIndicator import ScoreIndicator, ScoreIndicatorPos
     from Sprites.Zombie import Zombie
