@@ -16,6 +16,13 @@ class Vector2:
     def magnitude(self):
         return self.sqrMagnitude ** 0.5
 
+    def normalise(self):
+        return self / self.magnitude
+
+    def __iter__(self):
+        yield self.x
+        yield self.y
+
     def __add__(self, other: "Vector2"):
         return Vector2(self.x + other.x, self.y + other.y)
 
@@ -51,6 +58,3 @@ class Vector2:
             return Vector2(self.x % other.x, self.y % other.y)
         else:
             return Vector2(self.x % other, self.y % other)
-
-    def normalise(self):
-        return self / self.magnitude
