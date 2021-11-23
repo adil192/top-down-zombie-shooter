@@ -163,5 +163,5 @@ class Player(AnimatedSprite):
     def attacked(self):
         self.hearts -= 1
         if self.hearts <= 0:
-            self.game.gameOver()
+            self.game.onGameOver()
             self.destroyed = True

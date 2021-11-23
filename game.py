@@ -24,6 +24,8 @@ class Game:
         self.canvas = Canvas(self.tk, width=1280, height=720, bg="#151f13", cursor="hand2")
         self.canvas.pack(expand=YES, fill=BOTH)
 
+        self.isGameOver: bool = False
+
         self.sprites: List[ISprite] = []
 
         self.bullets = Bullets(self)
@@ -119,8 +121,13 @@ class Game:
                 self.drawScheduled = True
                 self.draw()
 
-    def gameOver(self):
-        pass
+    def onGameOver(self):
+        if self.isGameOver:
+            return
+
+        self.isGameOver = True
+        self.paused = True
+        self.pausedIndicator.hidden = True
 
 
 if __name__ == "__main__":
