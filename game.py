@@ -6,11 +6,15 @@ from tkinter import *
 from datetime import date
 from math import floor
 
+from typing import Optional
+
 
 tk = Tk()
 
 UPDATE_INTERVAL = int(1000/60)  # 60 fps
 DRAW_INTERVAL = int(1000/60)  # 60 fps
+
+COLOR_GREEN = "#151f13"
 
 
 class Game:
@@ -22,11 +26,11 @@ class Game:
         self.tk.geometry("1600x900")
         self.tk.resizable(False, False)
 
-        self.canvas = Canvas(self.tk, width=1280, height=720, bg="#151f13", cursor="hand2")
+        self.canvas = Canvas(self.tk, width=1280, height=720, bg=COLOR_GREEN, cursor="hand2")
         self.canvas.pack(expand=YES, fill=BOTH)
 
         self.isGameOver: bool = False
-        self.username = "Adil"  # todo: ask user for their username
+        self.username = "User"
 
         self.sprites: List[ISprite] = []
 
@@ -59,10 +63,27 @@ class Game:
 
         self.updateScheduled: bool = False
         self.drawScheduled: bool = False
-        self.paused = False
+        self.paused = True
+        self.pausedIndicator.hidden = True
+
+        self.font = "Helvetica 15"
+        self.usernameInput = Entry(self.tk, width=23, font=self.font, justify=CENTER)
+        self.usernameInput.bind("<Return>", lambda e: self.submitUsername())
+        self.usernameBtn = Button(self.tk, text="Start", bg="white", fg=COLOR_GREEN, font=self.font, command=self.submitUsername)
+        self.canvas.create_text(800, 400, text="Please enter a username", fill="white", font=self.font)
+        self.canvas.create_window(800, 450, window=self.usernameInput)
+        self.canvas.create_window(800, 510, window=self.usernameBtn)
 
         tk.bind('<Escape>', lambda e: self.togglePaused())
         tk.bind('<Control-Escape>', lambda e: self.toggleBossKey())
+
+    def submitUsername(self):
+        username = self.usernameInput.get()
+        if len(username) == 0:
+            # todo: show error
+            return
+        self.username = username
+        self.paused = False
 
     def update(self):
         for sprite in self.sprites:
