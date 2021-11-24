@@ -8,8 +8,9 @@ class ISprite:
     def __init__(self):
         self.position = Vector2(0, 0)
         self.rotation: float = 0
-        self.hidden: bool = False
+        self._hidden: bool = False
         self.destroyed: bool = False
+        self.needsANewDraw = True
 
     @property
     def position(self):
@@ -43,6 +44,28 @@ class ISprite:
         """
         pass
 
-    def draw(self, canvas: Canvas):
-        if self.hidden:
-            return
+    def first_draw(self, canvas: Canvas):
+        self.needsANewDraw = False
+        pass
+
+    def redraw(self, canvas: Canvas):
+        if self.needsANewDraw:
+            self.undraw(canvas)
+            self.first_draw(canvas)
+        pass
+
+    def undraw(self, canvas: Canvas):
+        pass
+
+    @property
+    def hidden(self):
+        return self._hidden
+
+    def setHidden(self, canvas: Canvas, hidden: bool):
+        if self._hidden == hidden:
+            return  # not changed, don't do anything
+        self._hidden = hidden
+        if hidden:
+            self.undraw(canvas)
+        else:
+            self.first_draw(canvas)

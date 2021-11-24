@@ -17,12 +17,28 @@ class HealthIndicator(ISprite):
     def __init__(self, player: "Player"):
         super().__init__()
         self.player: "Player" = player
-        self.maxHearts = self.player.hearts  # assume player starts at max health
+        self.maxHearts: int = self.player.hearts  # assume player starts at max health
 
-    def draw(self, canvas: Canvas):
-        if self.hidden:
-            return
+        self.drawnHearts: int = 0
+        self.canvas_hearts: list = []
+
+    def first_draw(self, canvas: Canvas):
+        super(HealthIndicator, self).first_draw(canvas)
+        self.canvas_hearts = []
         x = 20
-        for i in range(1, self.maxHearts + 1):
-            canvas.create_image(x, 20, image=(HEART_FULL if self.player.hearts >= i else HEART_BROKEN), anchor=NW)
+        for i in range(self.maxHearts):
+            image = HEART_FULL if self.player.hearts > i else HEART_BROKEN
+            self.canvas_hearts.append(canvas.create_image(x, 20, image=image, anchor=NW))
             x += HEART_SIZE + HEART_PADDING
+        self.drawnHearts = self.player.hearts
+
+    def redraw(self, canvas: Canvas):
+        super(HealthIndicator, self).redraw(canvas)
+        if self.player.hearts != self.drawnHearts:  # player's hp changed
+            self.undraw(canvas)
+            self.first_draw(canvas)
+
+    def undraw(self, canvas: Canvas):
+        super(HealthIndicator, self).undraw(canvas)
+        for heart in self.canvas_hearts:
+            canvas.delete(heart)

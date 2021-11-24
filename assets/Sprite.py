@@ -21,6 +21,8 @@ class Sprite(ISprite):
         else:
             self.image = image
 
+        self.canvas_image = "None"
+
     @property
     def image(self):
         return self.__image
@@ -30,13 +32,23 @@ class Sprite(ISprite):
         self.__image = new
         self.halfImageSize = Vector2(new.width() / 2, new.height() / 2)
         self.topLeftPosition = self.position - self.halfImageSize
+        self.needsANewDraw = True
 
     @ISprite.position.setter
     def position(self, new: Vector2):
         ISprite.position.fset(self, new)
         self.topLeftPosition = new - self.halfImageSize
 
-    def draw(self, canvas: Canvas):
+    def first_draw(self, canvas: Canvas):
         if self.hidden:
             return
-        canvas.create_image(self.topLeftPosition.x, self.topLeftPosition.y, image=self.image, anchor=NW)
+        super(Sprite, self).first_draw(canvas)
+        self.canvas_image = canvas.create_image(self.topLeftPosition.x, self.topLeftPosition.y, image=self.image, anchor=NW)
+
+    def redraw(self, canvas: Canvas):
+        super(Sprite, self).redraw(canvas)
+        canvas.moveto(self.canvas_image, self.topLeftPosition.x, self.topLeftPosition.y)
+
+    def undraw(self, canvas: Canvas):
+        super(Sprite, self).undraw(canvas)
+        canvas.delete(self.canvas_image)

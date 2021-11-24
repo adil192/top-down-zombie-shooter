@@ -24,7 +24,7 @@ from typing import List
 
 
 UPDATE_INTERVAL = int(1000/60)  # 60 fps
-DRAW_INTERVAL = int(1000/60)  # 60 fps
+REDRAW_INTERVAL = int(1000/60)  # 60 fps
 
 COLOR_GREEN = "#151f13"
 
@@ -56,7 +56,7 @@ class Game:
         self.targetNumZombies: float = 0
         self.dontSpawnZombie: bool = True
         self.updateScheduled: bool = False
-        self.drawScheduled: bool = False
+        self.redrawScheduled: bool = False
         self.paused: bool = True
 
         self.font = "Helvetica 15"
@@ -104,6 +104,7 @@ class Game:
 
         self.bossKeyBg = Sprite("images/BossKeyBg.png")
         self.bossKeyBg.position = Vector2(1600, 900) / 2
+        self.bossKeyBg.setHidden(self.canvas, True)
         self.sprites.append(self.bossKeyBg)
 
         self.targetNumZombies: float = 2.75
@@ -145,15 +146,14 @@ class Game:
     def _unlockZombieSpawn(self):
         self.dontSpawnZombie = False
 
-    def draw(self):
-        self.canvas.delete('all')
+    def redraw(self):
         for sprite in self.sprites:
-            sprite.draw(self.canvas)
+            sprite.redraw(self.canvas)
 
-        self.drawScheduled = False
+        self.redrawScheduled = False
         if not self.paused:
-            self.drawScheduled = True
-            self.tk.after(DRAW_INTERVAL, self.draw)
+            self.redrawScheduled = True
+            self.tk.after(REDRAW_INTERVAL, self.redraw)
 
     def OnZombieKilled(self):
         self.targetNumZombies += 0.25
@@ -167,8 +167,8 @@ class Game:
             self.paused = False
         else:
             self.paused = True
-            self.pausedIndicator.hidden = True
-            self.bossKeyBg.hidden = False
+            self.pausedIndicator.setHidden(self.canvas, True)
+            self.bossKeyBg.setHidden(self.canvas, False)
 
     @property
     def paused(self) -> bool:
@@ -181,15 +181,15 @@ class Game:
             if not paused:
                 self.start()
             return
-        self.pausedIndicator.hidden = not self.paused
-        self.bossKeyBg.hidden = True
+        self.pausedIndicator.setHidden(self.canvas, not self.paused)
+        self.bossKeyBg.setHidden(self.canvas, True)
         if not paused:
             if not self.updateScheduled:
                 self.updateScheduled = True
                 self.update()
-            if not self.drawScheduled:
-                self.drawScheduled = True
-                self.draw()
+            if not self.redrawScheduled:
+                self.redrawScheduled = True
+                self.redraw()
 
     def onGameOver(self):
         if self.isGameOver:
@@ -197,7 +197,7 @@ class Game:
 
         self.isGameOver = True
         self.paused = True
-        self.pausedIndicator.hidden = True
+        self.pausedIndicator.setHidden(self.canvas, True)
 
         self.sprites.append(Leaderboard(self.score, date.today().strftime("%d-%m-%Y"), self.username))
         self.scoreIndicator.position = ScoreIndicator.POS_GAMEOVER

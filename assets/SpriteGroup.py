@@ -18,6 +18,16 @@ class SpriteGroup(ISprite):
         for child in self.children:
             child.update(dt)
 
-    def draw(self, canvas: Canvas):
+    def first_draw(self, canvas: Canvas):
+        super(SpriteGroup, self).first_draw(canvas)
         for child in self.children:
-            child.draw(canvas)
+            child.first_draw(canvas)
+
+    def redraw(self, canvas: Canvas):
+        super(SpriteGroup, self).redraw(canvas)
+        for child in self.children:
+            child.redraw(canvas)
+
+    def undraw(self, canvas: Canvas):
+        for child in self.children:
+            child.undraw(canvas)

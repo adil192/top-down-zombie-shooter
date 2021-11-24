@@ -50,16 +50,32 @@ class Leaderboard(ISprite):
         self.font_size = 20
         self.font = f'Monospace {self.font_size} bold'
 
-    def draw(self, canvas: Canvas):
+        self.canvas_texts = []
+
+    def first_draw(self, canvas: Canvas):
+        super(Leaderboard, self).first_draw(canvas)
+
+        self.canvas_texts = []
+
         x = 1600*0.5
         y = 900*0.4
 
-        canvas.create_text(x, y, text=Leaderboard.TITLE.ljust(len(self.lines[0])), fill="white", font=self.font)
+        self.canvas_texts.append(canvas.create_text(x, y, text=Leaderboard.TITLE.ljust(len(self.lines[0])), fill="white", font=self.font))
         y += self.font_size + self.line_padding
 
         for i in range(len(self.lines)):
-            canvas.create_text(x, y, text=self.lines[i], fill="white", font=self.font)
+            self.canvas_texts.append(canvas.create_text(x, y, text=self.lines[i], fill="white", font=self.font))
             y += self.font_size + self.line_padding
+
+    def redraw(self, canvas: Canvas):
+        super(Leaderboard, self).redraw(canvas)
+        # assume we never need to update the leaderboard after it's been first_draw()ed
+        pass
+
+    def undraw(self, canvas: Canvas):
+        super(Leaderboard, self).undraw(canvas)
+        for canvas_text in self.canvas_texts:
+            canvas.delete(canvas_text)
 
     @staticmethod
     def _formatRow(n: Union[int, str], score: Union[int, str], date: str, name: str):
