@@ -186,20 +186,20 @@ class Game:
         self.pausedIndicator.hidden = True
 
         self.sprites.append(Leaderboard(self.score, date.today().strftime("%d-%m-%Y"), self.username))
-        self.scoreIndicator.setPosition(ScoreIndicatorPos.CENTRE)
+        self.scoreIndicator.position = ScoreIndicator.POS_GAMEOVER
 
 
 if __name__ == "__main__":
+    from assets.ISprite import ISprite
     from assets.Sprite import Sprite
     from assets.SpriteGroup import SpriteGroup
-    from assets.ISprite import ISprite
     from assets.Vectors import Vector2
 
     from Sprites.Bullet import Bullets
     from Sprites.HealthIndicator import HealthIndicator
     from Sprites.Leaderboard import Leaderboard
     from Sprites.Player import Player
-    from Sprites.ScoreIndicator import ScoreIndicator, ScoreIndicatorPos
+    from Sprites.ScoreIndicator import ScoreIndicator
     from Sprites.Zombie import Zombie
 
     from typing import List
