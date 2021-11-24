@@ -4,12 +4,24 @@ Game window is 1600x900
 
 from tkinter import *
 from datetime import date
-from math import floor
-
-from typing import Optional
-
 
 tk = Tk()
+
+from assets.ISprite import ISprite
+from assets.Sprite import Sprite
+from assets.SpriteGroup import SpriteGroup
+from assets.TextSprite import TextSprite
+from assets.Vectors import Vector2
+
+from Sprites.Bullet import Bullets
+from Sprites.HealthIndicator import HealthIndicator
+from Sprites.Leaderboard import Leaderboard
+from Sprites.Player import Player
+from Sprites.ScoreIndicator import ScoreIndicator
+from Sprites.Zombie import Zombie
+
+from typing import List
+
 
 UPDATE_INTERVAL = int(1000/60)  # 60 fps
 DRAW_INTERVAL = int(1000/60)  # 60 fps
@@ -194,20 +206,5 @@ class Game:
 
 
 if __name__ == "__main__":
-    from assets.ISprite import ISprite
-    from assets.Sprite import Sprite
-    from assets.SpriteGroup import SpriteGroup
-    from assets.TextSprite import TextSprite
-    from assets.Vectors import Vector2
-
-    from Sprites.Bullet import Bullets
-    from Sprites.HealthIndicator import HealthIndicator
-    from Sprites.Leaderboard import Leaderboard
-    from Sprites.Player import Player
-    from Sprites.ScoreIndicator import ScoreIndicator
-    from Sprites.Zombie import Zombie
-
-    from typing import List
-
     game = Game(tk)
-    game.tk.mainloop()
+    tk.mainloop()
