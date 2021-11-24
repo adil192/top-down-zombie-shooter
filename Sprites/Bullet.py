@@ -17,8 +17,8 @@ class Bullets(SpriteGroup):
         self.game: Game = game
 
     def newBullet(self, startPos: Vector2, forwards: Vector2) -> "_Bullet":
-        self.children.append(bullet)
         bullet = _Bullet(self.canvas, startPos, forwards, self.game)
+        self.children.insertRight(bullet)
         return bullet
 
 
