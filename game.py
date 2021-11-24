@@ -118,6 +118,8 @@ class Game:
             self.start()
 
     def submitUsername(self):
+        if self.started:
+            return
         username = self.usernameInput.get()
         if len(username) == 0:
             self.usernameInput.configure(bg="red")
