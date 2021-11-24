@@ -4,7 +4,7 @@ from assets.ISprite import ISprite
 
 
 class TextSprite(ISprite):
-    def __init__(self, text: str = ""):
+    def __init__(self, canvas: Canvas, text: str = ""):
         self.text = text
         self.options = {
             "fill": "white",
@@ -12,7 +12,7 @@ class TextSprite(ISprite):
         }
         self.canvas_text = "None"
 
-        super(TextSprite, self).__init__()
+        super(TextSprite, self).__init__(canvas)
 
     @property
     def text(self):
@@ -23,14 +23,14 @@ class TextSprite(ISprite):
         self.__text = new
         self.needsANewDraw = True
 
-    def first_draw(self, canvas: Canvas):
-        super(TextSprite, self).first_draw(canvas)
-        self.canvas_text = canvas.create_text(*self.position, text=self.text, **self.options)
+    def first_draw(self):
+        super(TextSprite, self).first_draw()
+        self.canvas_text = self.canvas.create_text(*self.position, text=self.text, **self.options)
 
-    def redraw(self, canvas: Canvas):
-        super(TextSprite, self).redraw(canvas)
+    def redraw(self):
+        super(TextSprite, self).redraw()
         pass
     
-    def undraw(self, canvas: Canvas):
-        super(TextSprite, self).undraw(canvas)
-        canvas.delete(self.canvas_text)
+    def undraw(self):
+        super(TextSprite, self).undraw()
+        self.canvas.delete(self.canvas_text)

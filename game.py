@@ -89,22 +89,22 @@ class Game:
         self.player.setupKeyBindings()
         self.sprites.append(self.player)
 
-        self.zombies = SpriteGroup()
+        self.zombies = SpriteGroup(self.canvas)
         self.sprites.append(self.zombies)
 
-        self.sprites.append(HealthIndicator(self.player))
+        self.sprites.append(HealthIndicator(self.canvas, self.player))
 
         self.score: int = 0
         self.scoreIndicator = ScoreIndicator(self)
         self.sprites.append(self.scoreIndicator)
 
-        self.pausedIndicator = Sprite("images/Emojis/23f8.png")
+        self.pausedIndicator = Sprite(self.canvas, "images/Emojis/23f8.png")
         self.pausedIndicator.position = Vector2(1600, 900) / 2
         self.sprites.append(self.pausedIndicator)
 
-        self.bossKeyBg = Sprite("images/BossKeyBg.png")
+        self.bossKeyBg = Sprite(self.canvas, "images/BossKeyBg.png")
         self.bossKeyBg.position = Vector2(1600, 900) / 2
-        self.bossKeyBg.setHidden(self.canvas, True)
+        self.bossKeyBg.hidden = True
         self.sprites.append(self.bossKeyBg)
 
         self.targetNumZombies: float = 2.75
@@ -134,7 +134,7 @@ class Game:
             sprite.update(UPDATE_INTERVAL / 1000)
 
         if not self.dontSpawnZombie and len(self.zombies.children) < self.targetNumZombies - 1:
-            self.zombies.children.append(Zombie(self.player))
+            self.zombies.children.insertRight(Zombie(self.canvas, self.player))
             self.dontSpawnZombie = True
             self.tk.after(self.__class__.ZOMBIE_SPAWN_COOLDOWN, self._unlockZombieSpawn)
 
@@ -148,7 +148,7 @@ class Game:
 
     def redraw(self):
         for sprite in self.sprites:
-            sprite.redraw(self.canvas)
+            sprite.redraw()
 
         self.redrawScheduled = False
         if not self.paused:
@@ -167,8 +167,8 @@ class Game:
             self.paused = False
         else:
             self.paused = True
-            self.pausedIndicator.setHidden(self.canvas, True)
-            self.bossKeyBg.setHidden(self.canvas, False)
+            self.pausedIndicator.hidden = True
+            self.bossKeyBg.hidden =  False
 
     @property
     def paused(self) -> bool:
@@ -181,8 +181,8 @@ class Game:
             if not paused:
                 self.start()
             return
-        self.pausedIndicator.setHidden(self.canvas, not self.paused)
-        self.bossKeyBg.setHidden(self.canvas, True)
+        self.pausedIndicator.hidden = not self.paused
+        self.bossKeyBg.hidden = True
         if not paused:
             if not self.updateScheduled:
                 self.updateScheduled = True
@@ -197,12 +197,12 @@ class Game:
 
         self.isGameOver = True
         self.paused = True
-        self.pausedIndicator.setHidden(self.canvas, True)
+        self.pausedIndicator.hidden = True
 
-        self.sprites.append(Leaderboard(self.score, date.today().strftime("%d-%m-%Y"), self.username))
+        self.sprites.append(Leaderboard(self.canvas, self.score, date.today().strftime("%d-%m-%Y"), self.username))
         self.scoreIndicator.position = ScoreIndicator.POS_GAMEOVER
 
-        hintText = TextSprite(text="Press Enter to play again!")
+        hintText = TextSprite(self.canvas, text="Press Enter to play again!")
         hintText.position = Vector2(1600*0.5, 900*0.8)
         self.sprites.append(hintText)
 

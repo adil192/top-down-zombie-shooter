@@ -8,13 +8,13 @@ from typing import Union
 
 
 class Sprite(ISprite):
-    def __init__(self, image: Union[str, PhotoImage]):
+    def __init__(self, canvas: Canvas, image: Union[str, PhotoImage]):
         """
         :param image: This must either be a filepath to an image,
             or the PhotoImage itself.
         """
         self.halfImageSize = Vector2(0, 0)
-        super().__init__()
+        super().__init__(canvas)
 
         if isinstance(image, str):
             self.image = PhotoImage(file=image)
@@ -39,16 +39,16 @@ class Sprite(ISprite):
         ISprite.position.fset(self, new)
         self.topLeftPosition = new - self.halfImageSize
 
-    def first_draw(self, canvas: Canvas):
+    def first_draw(self):
         if self.hidden:
             return
-        super(Sprite, self).first_draw(canvas)
-        self.canvas_image = canvas.create_image(self.topLeftPosition.x, self.topLeftPosition.y, image=self.image, anchor=NW)
+        super(Sprite, self).first_draw()
+        self.canvas_image = self.canvas.create_image(self.topLeftPosition.x, self.topLeftPosition.y, image=self.image, anchor=NW)
 
-    def redraw(self, canvas: Canvas):
-        super(Sprite, self).redraw(canvas)
-        canvas.moveto(self.canvas_image, self.topLeftPosition.x, self.topLeftPosition.y)
+    def redraw(self):
+        super(Sprite, self).redraw()
+        self.canvas.moveto(self.canvas_image, self.topLeftPosition.x, self.topLeftPosition.y)
 
-    def undraw(self, canvas: Canvas):
-        super(Sprite, self).undraw(canvas)
-        canvas.delete(self.canvas_image)
+    def undraw(self):
+        super(Sprite, self).undraw()
+        self.canvas.delete(self.canvas_image)

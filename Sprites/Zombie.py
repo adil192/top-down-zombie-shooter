@@ -1,6 +1,6 @@
 from random import random
 from math import pi, sin, cos, atan2
-from tkinter import Tk, PhotoImage
+from tkinter import Tk, PhotoImage, Canvas
 from enum import Enum, auto as enum_next
 
 from assets.AnimatedSprite import AnimatedSprite
@@ -30,8 +30,8 @@ class Zombie(AnimatedSprite):
     MAX_SPEED: float = 50
     COLLIDER_WIDTH: float = 75
 
-    def __init__(self, target_player: "Player"):
-        super().__init__(self.__class__.FRAMES_MOVE)
+    def __init__(self, canvas: Canvas, target_player: "Player"):
+        super().__init__(canvas, self.__class__.FRAMES_MOVE)
         self.target_player = target_player
 
         self.position = Vector2(1600 - self.halfImageSize.x, random() * 900)

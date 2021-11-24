@@ -5,7 +5,8 @@ from assets.Vectors import Vector2
 
 
 class ISprite:
-    def __init__(self):
+    def __init__(self, canvas: Canvas):
+        self.canvas = canvas
         self.position = Vector2(0, 0)
         self.rotation: float = 0
         self._hidden: bool = False
@@ -44,28 +45,29 @@ class ISprite:
         """
         pass
 
-    def first_draw(self, canvas: Canvas):
+    def first_draw(self):
         self.needsANewDraw = False
         pass
 
-    def redraw(self, canvas: Canvas):
+    def redraw(self):
         if self.needsANewDraw:
-            self.undraw(canvas)
-            self.first_draw(canvas)
+            self.undraw()
+            self.first_draw()
         pass
 
-    def undraw(self, canvas: Canvas):
+    def undraw(self):
         pass
 
     @property
     def hidden(self):
         return self._hidden
 
-    def setHidden(self, canvas: Canvas, hidden: bool):
+    @hidden.setter
+    def hidden(self, hidden: bool):
         if self._hidden == hidden:
             return  # not changed, don't do anything
         self._hidden = hidden
         if hidden:
-            self.undraw(canvas)
+            self.undraw()
         else:
-            self.first_draw(canvas)
+            self.first_draw()

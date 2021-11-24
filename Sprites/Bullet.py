@@ -1,4 +1,4 @@
-from tkinter import Tk
+from tkinter import Tk, Canvas
 
 from assets.SpriteGroup import SpriteGroup
 from assets.Sprite import Sprite
@@ -13,12 +13,12 @@ if TYPE_CHECKING:
 
 class Bullets(SpriteGroup):
     def __init__(self, game: "Game"):
-        super().__init__()
+        super().__init__(game.canvas)
         self.game: Game = game
 
     def newBullet(self, startPos: Vector2, forwards: Vector2) -> "_Bullet":
-        bullet = _Bullet(startPos, forwards, self.game)
         self.children.append(bullet)
+        bullet = _Bullet(self.canvas, startPos, forwards, self.game)
         return bullet
 
 
@@ -31,8 +31,8 @@ class _Bullet(Sprite):
 
     COLLIDER_WIDTH: float = 20  # wider than the actual image (6px x 6px) since the bullet is quite fast
 
-    def __init__(self, startPos: Vector2, forwards: Vector2, game: "Game"):
-        super(_Bullet, self).__init__("images/bullet.png")
+    def __init__(self, canvas: Canvas, startPos: Vector2, forwards: Vector2, game: "Game"):
+        super(_Bullet, self).__init__(canvas, "images/bullet.png")
         self.position = startPos
         self.forwards = forwards
         self.game: Game = game

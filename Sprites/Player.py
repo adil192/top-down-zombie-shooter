@@ -1,5 +1,5 @@
 from math import pi, sin, cos, atan2
-from tkinter import PhotoImage
+from tkinter import PhotoImage, Canvas
 from enum import Enum, auto as enum_next
 
 from assets.AnimatedSprite import AnimatedSprite
@@ -31,7 +31,7 @@ class Player(AnimatedSprite):
     COLLIDER_WIDTH: float = 50
 
     def __init__(self, game: "Game", bullets: Bullets):
-        super().__init__(self.__class__.FRAMES_IDLE_HANDGUN)
+        super().__init__(game.canvas, self.__class__.FRAMES_IDLE_HANDGUN)
         self.game: Game = game
         self.bullets: Bullets = bullets
 

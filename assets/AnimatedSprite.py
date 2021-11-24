@@ -9,7 +9,7 @@ from typing import Union, List
 
 
 class AnimatedSprite(Sprite):
-    def __init__(self, frames: Union[List[PhotoImage], str],
+    def __init__(self, canvas: Canvas, frames: Union[List[PhotoImage], str],
                  cycle_length: float = 1, frame_interval: float = 0):
         """
         :param frames: This must either be a PhotoImage list,
@@ -21,7 +21,7 @@ class AnimatedSprite(Sprite):
         else:
             self.frames = frames
 
-        super().__init__(self.frames[0])
+        super().__init__(canvas, self.frames[0])
         self.imageSize = Vector2(self.image.width(), self.image.height())
         self.position = Vector2(0, 0)
 

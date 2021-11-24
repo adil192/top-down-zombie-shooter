@@ -13,7 +13,7 @@ class ScoreIndicator(TextSprite):
     POS_GAMEOVER = Vector2(1600*0.5, 900*0.2)
 
     def __init__(self, game: "Game"):
-        super(ScoreIndicator, self).__init__()
+        super(ScoreIndicator, self).__init__(game.canvas)
         self.game: "Game" = game
         self.text = self.game.score
 

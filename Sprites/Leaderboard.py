@@ -20,8 +20,8 @@ class Leaderboard(ISprite):
     HEADER_DATE = "date"
     HEADER_NAME = "name"
 
-    def __init__(self,  newScore: int = None, newDate: str = None, newName: str = None):
-        super().__init__()
+    def __init__(self, canvas: Canvas,  newScore: int = None, newDate: str = None, newName: str = None):
+        super().__init__(canvas)
 
         leaderboard = sorted(Leaderboard.getLeaderboard(), key=lambda x: x[0], reverse=True)  # sort desc by score
 
@@ -52,30 +52,30 @@ class Leaderboard(ISprite):
 
         self.canvas_texts = []
 
-    def first_draw(self, canvas: Canvas):
-        super(Leaderboard, self).first_draw(canvas)
+    def first_draw(self):
+        super(Leaderboard, self).first_draw()
 
         self.canvas_texts = []
 
         x = 1600*0.5
         y = 900*0.4
 
-        self.canvas_texts.append(canvas.create_text(x, y, text=Leaderboard.TITLE.ljust(len(self.lines[0])), fill="white", font=self.font))
+        self.canvas_texts.append(self.canvas.create_text(x, y, text=Leaderboard.TITLE.ljust(len(self.lines[0])), fill="white", font=self.font))
         y += self.font_size + self.line_padding
 
         for i in range(len(self.lines)):
-            self.canvas_texts.append(canvas.create_text(x, y, text=self.lines[i], fill="white", font=self.font))
+            self.canvas_texts.append(self.canvas.create_text(x, y, text=self.lines[i], fill="white", font=self.font))
             y += self.font_size + self.line_padding
 
-    def redraw(self, canvas: Canvas):
-        super(Leaderboard, self).redraw(canvas)
+    def redraw(self):
+        super(Leaderboard, self).redraw()
         # assume we never need to update the leaderboard after it's been first_draw()ed
         pass
 
-    def undraw(self, canvas: Canvas):
-        super(Leaderboard, self).undraw(canvas)
+    def undraw(self):
+        super(Leaderboard, self).undraw()
         for canvas_text in self.canvas_texts:
-            canvas.delete(canvas_text)
+            self.canvas.delete(canvas_text)
 
     @staticmethod
     def _formatRow(n: Union[int, str], score: Union[int, str], date: str, name: str):
