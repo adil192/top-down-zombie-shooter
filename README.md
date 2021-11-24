@@ -2,7 +2,9 @@
 
 This is the repository for the Python Coursework named: 16321-Cwk-S-Python Coursework
 
-
+## Auto-save
+- The game auto-saves when you close the window.
+- Simply enter the same username the next time you play to recover your game state.
 
 ## Controls
 

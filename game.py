@@ -1,13 +1,15 @@
 """
 Game window is 1600x900
 """
-
+from hashlib import sha1
 from tkinter import *
 from datetime import date
+import pickle
 
 tk = Tk()
 
 from assets.ISprite import ISprite
+from assets.SavedState import SavedState
 from assets.Sprite import Sprite
 from assets.SpriteGroup import SpriteGroup
 from assets.TextSprite import TextSprite
@@ -27,6 +29,8 @@ UPDATE_INTERVAL = int(1000/60)  # 60 fps
 REDRAW_INTERVAL = int(1000/60)  # 60 fps
 
 COLOR_GREEN = "#151f13"
+
+SAVE_FILE = "saves/save_{}.bin"
 
 
 class Game:
@@ -70,6 +74,7 @@ class Game:
         tk.bind('<Escape>', lambda e: self.togglePaused())
         tk.bind('<Control-Escape>', lambda e: self.toggleBossKey())
         tk.bind('<Return>', lambda e: self.restart())
+        tk.protocol("WM_DELETE_WINDOW", self.onClose)
 
     def start(self):
         self.started = True
@@ -109,6 +114,8 @@ class Game:
 
         self.targetNumZombies: float = 2.75
         self.dontSpawnZombie: bool = False
+
+        self.loadState()
 
         self.paused = False
 
@@ -191,6 +198,19 @@ class Game:
                 self.redrawScheduled = True
                 self.redraw()
 
+    @property
+    def usernameHash(self):
+        return self._usernameHash
+
+    @property
+    def username(self):
+        return self._username
+
+    @username.setter
+    def username(self, new: str):
+        self._username = new
+        self._usernameHash = sha1(self._username.encode("utf-8")).hexdigest()
+
     def onGameOver(self):
         if self.isGameOver:
             return
@@ -205,6 +225,42 @@ class Game:
         hintText = TextSprite(self.canvas, text="Press Enter to play again!")
         hintText.position = Vector2(1600*0.5, 900*0.8)
         self.sprites.append(hintText)
+
+    def saveState(self):
+        savedState: SavedState = SavedState(
+            score=self.score,
+            hearts=self.player.hearts,
+            playerPosition=self.player.position,
+            zombiePositions=[zombie.position for zombie in self.zombies.children],
+            zombieHearts=[zombie.hearts for zombie in self.zombies.children]
+        )
+        with open(SAVE_FILE.format(self.usernameHash), "wb") as save_file:
+            pickle.dump(savedState, save_file)
+
+    def loadState(self):
+        try:
+            with open(SAVE_FILE.format(self.usernameHash), "rb") as save_file:
+                savedState: SavedState = pickle.load(save_file)
+        except FileNotFoundError:
+            return
+
+        self.score = savedState.score
+        self.player.hearts = savedState.hearts
+        self.player.position = savedState.playerPosition
+
+        self.zombies.undraw()
+        index = self.sprites.index(self.zombies)
+        self.zombies = SpriteGroup(self.canvas)
+        self.sprites[index] = self.zombies
+        for i in range(len(savedState.zombiePositions)):
+            zombie: Zombie = Zombie(self.canvas, self.player)
+            zombie.position = savedState.zombiePositions[i]
+            zombie.hearts = savedState.zombieHearts[i]
+            self.zombies.children.insertRight(zombie)
+
+    def onClose(self):
+        self.saveState()
+        self.tk.destroy()
 
 
 if __name__ == "__main__":
