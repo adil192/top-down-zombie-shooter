@@ -28,7 +28,7 @@ class Leaderboard(ISprite):
         # if new score should be on the leaderboard
         if newScore is not None and (len(leaderboard) < Leaderboard.MAX_RECORDS or newScore > leaderboard[-1][0]):
             # we don't want duplicate records, so remove a pre-existing record for this user if it exists
-            leaderboard = [(score, date, name) for (score, date, name) in leaderboard if name != newName]
+            leaderboard = [(score, date, name) for (score, date, name) in leaderboard if name.lower() != newName.lower()]
 
             newLine = (newScore, newDate, newName)
             for i in range(len(leaderboard)):
