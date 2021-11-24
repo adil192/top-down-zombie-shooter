@@ -25,20 +25,8 @@ class Leaderboard(ISprite):
 
         leaderboard = sorted(Leaderboard.getLeaderboard(), key=lambda x: x[0], reverse=True)  # sort desc by score
 
-        # if new score should be on the leaderboard
-        if newScore is not None and (len(leaderboard) < Leaderboard.MAX_RECORDS or newScore > leaderboard[-1][0]):
-            # we don't want duplicate records, so remove a pre-existing record for this user if it exists
-            leaderboard = [(score, date, name) for (score, date, name) in leaderboard if name.lower() != newName.lower()]
-
-            newLine = (newScore, newDate, newName)
-            for i in range(len(leaderboard)):
-                if leaderboard[i][0] < newScore:
-                    leaderboard.insert(i, newLine)  # insert at right place in sorted list
-                    break
-            else:
-                leaderboard.append(newLine)
-            leaderboard = leaderboard[:Leaderboard.MAX_RECORDS]  # only keep the best 5
-            Leaderboard.writeLeaderboard(leaderboard)  # save to txt file
+        if newScore is not None:
+            leaderboard = self.addToLeaderboard(leaderboard, newScore, newDate, newName)
 
         self.lines = [
             Leaderboard._formatRow(Leaderboard.HEADER_NUM, Leaderboard.HEADER_SCORE, Leaderboard.HEADER_DATE, Leaderboard.HEADER_NAME)
@@ -51,6 +39,29 @@ class Leaderboard(ISprite):
         self.font = f'Monospace {self.font_size} bold'
 
         self.canvas_texts = []
+
+    def addToLeaderboard(self, leaderboard: List[tuple], newScore: int, newDate: str, newName: str):
+        # if new score should be on the leaderboard
+        if len(leaderboard) < Leaderboard.MAX_RECORDS or newScore > leaderboard[-1][0]:
+            # we don't want duplicate records, so remove a pre-existing record for this user if it exists
+            for line in leaderboard:
+                if line[-1].lower() == newName.lower():
+                    if newScore <= line[0]:
+                        return leaderboard
+                    else:
+                        leaderboard.remove(line)
+                        break
+
+            newLine = (newScore, newDate, newName)
+            for i in range(len(leaderboard)):
+                if leaderboard[i][0] < newScore:
+                    leaderboard.insert(i, newLine)  # insert at right place in sorted list
+                    break
+            else:
+                leaderboard.append(newLine)
+            leaderboard = leaderboard[:Leaderboard.MAX_RECORDS]  # only keep the best 5
+            Leaderboard.writeLeaderboard(leaderboard)  # save to txt file
+        return leaderboard
 
     def first_draw(self):
         super(Leaderboard, self).first_draw()
