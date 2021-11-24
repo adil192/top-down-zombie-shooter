@@ -188,11 +188,16 @@ class Game:
         self.sprites.append(Leaderboard(self.score, date.today().strftime("%d-%m-%Y"), self.username))
         self.scoreIndicator.position = ScoreIndicator.POS_GAMEOVER
 
+        hintText = TextSprite(text="Press Enter to play again!")
+        hintText.position = Vector2(1600*0.5, 900*0.8)
+        self.sprites.append(hintText)
+
 
 if __name__ == "__main__":
     from assets.ISprite import ISprite
     from assets.Sprite import Sprite
     from assets.SpriteGroup import SpriteGroup
+    from assets.TextSprite import TextSprite
     from assets.Vectors import Vector2
 
     from Sprites.Bullet import Bullets
