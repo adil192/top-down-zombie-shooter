@@ -1,5 +1,5 @@
 from math import pi, sin, cos, atan2
-from tkinter import PhotoImage, Canvas
+from tkinter import PhotoImage
 from enum import Enum, auto as enum_next
 
 from assets.AnimatedSprite import AnimatedSprite

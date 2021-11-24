@@ -1,6 +1,6 @@
 from os.path import exists
 from math import floor
-from tkinter import PhotoImage, Canvas, NW
+from tkinter import PhotoImage, Canvas
 
 from assets.Sprite import Sprite
 from assets.Vectors import Vector2

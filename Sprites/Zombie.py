@@ -1,6 +1,6 @@
 from random import random
-from math import pi, sin, cos, atan2
-from tkinter import Tk, PhotoImage, Canvas
+from math import pi
+from tkinter import PhotoImage, Canvas
 from enum import Enum, auto as enum_next
 
 from assets.AnimatedSprite import AnimatedSprite

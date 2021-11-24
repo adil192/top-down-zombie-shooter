@@ -168,7 +168,7 @@ class Game:
         else:
             self.paused = True
             self.pausedIndicator.hidden = True
-            self.bossKeyBg.hidden =  False
+            self.bossKeyBg.hidden = False
 
     @property
     def paused(self) -> bool:

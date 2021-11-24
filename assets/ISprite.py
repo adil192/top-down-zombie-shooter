@@ -1,5 +1,5 @@
-from math import sin, cos, pi, atan2
-from tkinter import PhotoImage, Canvas, NW
+from math import sin, cos, atan2
+from tkinter import Canvas
 
 from assets.Vectors import Vector2
 

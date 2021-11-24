@@ -1,4 +1,4 @@
-from tkinter import Tk, Canvas
+from tkinter import Canvas
 
 from assets.SpriteGroup import SpriteGroup
 from assets.Sprite import Sprite

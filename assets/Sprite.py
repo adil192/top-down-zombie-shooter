@@ -1,4 +1,3 @@
-from math import sin, cos, pi, atan2
 from tkinter import PhotoImage, Canvas, NW
 
 from assets.ISprite import ISprite

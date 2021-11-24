@@ -1,4 +1,4 @@
-from tkinter import Canvas, NE
+from tkinter import NE
 
 from assets.TextSprite import TextSprite
 from assets.Vectors import Vector2

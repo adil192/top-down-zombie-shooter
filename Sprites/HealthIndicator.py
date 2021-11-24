@@ -2,7 +2,7 @@ from tkinter import PhotoImage, Canvas, NW
 
 from assets.ISprite import ISprite
 
-from typing import List, TYPE_CHECKING
+from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from Sprites.Player import Player
 
