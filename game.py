@@ -1,6 +1,7 @@
 """
 Game window is 1600x900
 """
+import os
 from hashlib import sha1
 from tkinter import *
 from datetime import date
@@ -281,6 +282,8 @@ class Game:
         hintText.position = Vector2(1600*0.5, 900*0.8)
         self.sprites.append(hintText)
 
+        os.remove(SAVE_FILE.format(self.usernameHash))
+
     def saveState(self):
         savedState: SavedState = SavedState(
             score=self.score,
@@ -317,7 +320,8 @@ class Game:
             self.zombies.children.insertRight(zombie)
 
     def onClose(self):
-        self.saveState()
+        if not self.started or not self.isGameOver:
+            self.saveState()
         self.tk.destroy()
 
 
