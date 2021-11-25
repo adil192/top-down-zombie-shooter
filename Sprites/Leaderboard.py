@@ -29,10 +29,10 @@ class Leaderboard(ISprite):
             leaderboard = self.addToLeaderboard(leaderboard, newScore, newDate, newName)
 
         self.lines = [
-            Leaderboard._formatRow(Leaderboard.HEADER_NUM, Leaderboard.HEADER_SCORE, Leaderboard.HEADER_DATE, Leaderboard.HEADER_NAME)
+            Leaderboard._formatRow(Leaderboard.HEADER_NUM, Leaderboard.HEADER_SCORE, Leaderboard.HEADER_DATE, Leaderboard.HEADER_NAME, highlight=False)
         ]
         for i in range(len(leaderboard)):
-            self.lines.append(Leaderboard._formatRow(i+1, *leaderboard[i]))
+            self.lines.append(Leaderboard._formatRow(i+1, *leaderboard[i], highlight=leaderboard[i][-1] == newName))
 
         self.line_padding = 20
         self.font_size = 20
@@ -89,10 +89,11 @@ class Leaderboard(ISprite):
             self.canvas.delete(canvas_text)
 
     @staticmethod
-    def _formatRow(n: Union[int, str], score: Union[int, str], date: str, name: str):
+    def _formatRow(n: Union[int, str], score: Union[int, str], date: str, name: str, highlight: bool):
         if n == "#":
             return f"| {n} | {score:<10} |{date:^14}| {name:>17} |"
-        return f"| {n} |  {score:<9} |{date:^14}| {name:>16}  |"
+        prefix = f"({n})" if highlight else f" {n} "
+        return f"|{prefix}|  {score:<9} |{date:^14}| {name:>16}  |"
 
     @staticmethod
     def parseLeaderboardLine(line: str) -> (Union[int, str], str, str):
