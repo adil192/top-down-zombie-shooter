@@ -15,6 +15,7 @@ from assets.SpriteGroup import SpriteGroup
 from assets.TextSprite import TextSprite
 from assets.Vectors import Vector2
 
+from Sprites.BossKeyBg import BossKeyBg
 from Sprites.Bullet import Bullets
 from Sprites.HealthIndicator import HealthIndicator
 from Sprites.Leaderboard import Leaderboard
@@ -144,9 +145,7 @@ class Game:
         self.pausedIndicator.position = Vector2(1600, 900) / 2
         self.sprites.append(self.pausedIndicator)
 
-        self.bossKeyBg = Sprite(self.canvas, "images/BossKeyBg.png")
-        self.bossKeyBg.position = Vector2(1600, 900) / 2
-        self.bossKeyBg.hidden = True
+        self.bossKeyBg = BossKeyBg(self.canvas)
         self.sprites.append(self.bossKeyBg)
 
         self.targetNumZombies: float = 2.75
