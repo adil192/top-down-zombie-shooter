@@ -286,6 +286,7 @@ class Game:
         savedState: SavedState = SavedState(
             score=self.score,
             hearts=self.player.hearts,
+            targetNumZombies=self.targetNumZombies,
             playerPosition=self.player.position,
             zombiePositions=[zombie.position for zombie in self.zombies.children],
             zombieHearts=[zombie.hearts for zombie in self.zombies.children],
@@ -302,6 +303,7 @@ class Game:
             return
 
         self.score = savedState.score
+        self.targetNumZombies = savedState.targetNumZombies
         self.player.hearts = savedState.hearts
         self.player.position = savedState.playerPosition
 

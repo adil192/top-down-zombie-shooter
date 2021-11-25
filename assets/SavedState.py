@@ -9,6 +9,7 @@ if TYPE_CHECKING:
 class SavedState:
     score: int
     hearts: int
+    targetNumZombies: float
     playerPosition: "Vector2"
     zombiePositions: List["Vector2"]
     zombieHearts: List[int]
