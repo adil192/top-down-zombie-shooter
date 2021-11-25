@@ -34,7 +34,7 @@ COLOR_GREEN = "#151f13"
 
 IGNORED_KEYSYMS = ["Tab", "Alt_L", "Alt_R", "Shift_L", "Shift_R", "BackSpace"]  # ignore these keys when choosing controls
 ARROW_KEYSYMS = ["Up", "Left", "Down", "Right"]  # the direction keys
-ARROW_KEYSYMS_REPR = ["⯅", "⯇", "⯆", "⯈"]  # the direction keys
+ARROW_KEYSYMS_REPR = ["↑", "←", "↓", "→"]  # the direction keys
 
 
 def keysymToSymbol(keysym: str):
