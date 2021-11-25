@@ -13,6 +13,7 @@ class Sprite(ISprite):
             or the PhotoImage itself.
         """
         self.halfImageSize = Vector2(0, 0)
+        self.__image = None
         super().__init__(canvas)
 
         if isinstance(image, str):
@@ -28,10 +29,11 @@ class Sprite(ISprite):
 
     @image.setter
     def image(self, new: PhotoImage):
+        if new != self.__image:
+            self.needsANewDraw = True
         self.__image = new
         self.halfImageSize = Vector2(new.width() / 2, new.height() / 2)
         self.topLeftPosition = self.position - self.halfImageSize
-        self.needsANewDraw = True
 
     @ISprite.position.setter
     def position(self, new: Vector2):
