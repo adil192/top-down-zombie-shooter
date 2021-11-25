@@ -303,7 +303,10 @@ class Game:
         hintText.position = Vector2(1600*0.5, 900*0.8)
         self.sprites.append(hintText)
 
-        os.remove(SAVE_FILE.format(self.usernameHash))
+        try:
+            os.remove(SAVE_FILE.format(self.usernameHash))
+        except FileNotFoundError:
+            pass
 
     def saveState(self):
         savedState: SavedState = SavedState(
