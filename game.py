@@ -122,7 +122,6 @@ class Game:
 
     def start(self):
         self.started = True
-        self.lastUpdateTime = time()
 
         self.canvas.delete('all')
         del self.sprites
@@ -266,6 +265,7 @@ class Game:
         self.pausedIndicator.hidden = not self.paused
         self.bossKeyBg.hidden = True
         if not paused:
+            self.lastUpdateTime = time()
             if not self.updateScheduled:
                 self.updateScheduled = True
                 self.update()
