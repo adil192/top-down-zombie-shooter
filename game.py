@@ -124,8 +124,7 @@ class Game:
         self.lastUpdateTime = time()
 
         self.canvas.delete('all')
-        for sprite in self.sprites:
-            del sprite
+        del self.sprites
 
         self.isGameOver: bool = False
 
