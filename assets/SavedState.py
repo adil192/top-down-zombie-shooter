@@ -12,3 +12,4 @@ class SavedState:
     playerPosition: "Vector2"
     zombiePositions: List["Vector2"]
     zombieHearts: List[int]
+    controls: List[str]

@@ -57,14 +57,15 @@ class Player(AnimatedSprite):
         self.activeCheatCodes: List[str] = []
 
     def setupKeyBindings(self):
-        self.game.tk.bind("<KeyPress-w>", lambda e: self.setInput(up=1))
-        self.game.tk.bind("<KeyRelease-w>", lambda e: self.setInput(up=0))
-        self.game.tk.bind("<KeyPress-s>", lambda e: self.setInput(down=1))
-        self.game.tk.bind("<KeyRelease-s>", lambda e: self.setInput(down=0))
-        self.game.tk.bind("<KeyPress-a>", lambda e: self.setInput(left=1))
-        self.game.tk.bind("<KeyRelease-a>", lambda e: self.setInput(left=0))
-        self.game.tk.bind("<KeyPress-d>", lambda e: self.setInput(right=1))
-        self.game.tk.bind("<KeyRelease-d>", lambda e: self.setInput(right=0))
+        controls = self.game.controls
+        inputs = ("up", "left", "down", "right")
+        # e.g. self.game.tk.bind("<KeyPress-w>", lambda e: self.setInput(up=1))
+        for i in range(len(inputs)):
+            self.game.tk.bind(f"<KeyPress-{controls[i]}>",
+                              lambda e, kwarg=inputs[i]: self.setInput(**{kwarg: 1}))
+            self.game.tk.bind(f"<KeyRelease-{controls[i]}>",
+                              lambda e, kwarg=inputs[i]: self.setInput(**{kwarg: 0}))
+
         self.game.tk.bind('<Motion>', lambda e: self.setInput(mouse=Vector2(e.x, e.y)))
         self.game.tk.bind("<Button-1>", lambda e: self.shoot())
 

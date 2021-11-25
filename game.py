@@ -48,6 +48,7 @@ class Game:
         self.started = False
         self.isGameOver: bool = False
         self.username = "User"
+        self.controls: List[str] = ["w", "a", "s", "d"]
 
         self.sprites: List[ISprite] = []
         self.bullets = None
@@ -232,7 +233,8 @@ class Game:
             hearts=self.player.hearts,
             playerPosition=self.player.position,
             zombiePositions=[zombie.position for zombie in self.zombies.children],
-            zombieHearts=[zombie.hearts for zombie in self.zombies.children]
+            zombieHearts=[zombie.hearts for zombie in self.zombies.children],
+            controls=self.controls
         )
         with open(SAVE_FILE.format(self.usernameHash), "wb") as save_file:
             pickle.dump(savedState, save_file)
