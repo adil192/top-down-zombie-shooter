@@ -30,6 +30,19 @@ REDRAW_INTERVAL = int(1000/60)  # 60 fps
 
 COLOR_GREEN = "#151f13"
 
+IGNORED_KEYSYMS = ["Tab", "Alt_L", "Alt_R", "Shift_L", "Shift_R", "BackSpace"]  # ignore these keys when choosing controls
+ARROW_KEYSYMS = ["Up", "Left", "Down", "Right"]  # the direction keys
+ARROW_KEYSYMS_REPR = ["⯅", "⯇", "⯆", "⯈"]  # the direction keys
+
+
+def keysymToSymbol(keysym: str):
+    if keysym in ARROW_KEYSYMS:
+        return ARROW_KEYSYMS_REPR[ARROW_KEYSYMS.index(keysym)]
+    if len(keysym) == 1 and keysym.islower():
+        return keysym.upper()
+    return keysym
+
+
 SAVE_FILE = "saves/save_{}.bin"
 
 
@@ -64,18 +77,41 @@ class Game:
         self.redrawScheduled: bool = False
         self.paused: bool = True
 
-        self.font = "Helvetica 15"
-        self.usernameInput = Entry(self.tk, width=23, font=self.font, justify=CENTER, bg="white")
-        self.usernameInput.bind("<Return>", lambda e: self.submitUsername())
-        self.usernameBtn = Button(self.tk, text="Start", bg="white", fg=COLOR_GREEN, font=self.font, command=self.submitUsername)
-        self.canvas.create_text(800, 400, text="Please enter a username", fill="white", font=self.font)
-        self.canvas.create_window(800, 450, window=self.usernameInput)
-        self.canvas.create_window(800, 510, window=self.usernameBtn)
+        self.createForm()
 
         tk.bind('<Escape>', lambda e: self.togglePaused())
         tk.bind('<Control-Escape>', lambda e: self.toggleBossKey())
         tk.bind('<Return>', lambda e: self.restart())
         tk.protocol("WM_DELETE_WINDOW", self.onClose)
+
+    # noinspection PyAttributeOutsideInit
+    def createForm(self):
+        font = "Helvetica 15"
+
+        self.canvas.create_text(800, 500, text="Please enter a username", fill="white", font=font)
+
+        self.usernameInput = Entry(self.tk, width=23, font=font, justify=CENTER, bg="white")
+        self.usernameInput.bind("<Return>", lambda e: self.submitForm())
+        self.canvas.create_window(800, 550, window=self.usernameInput)
+
+        self.usernameBtn = Button(self.tk, text="Start", bg="white", fg=COLOR_GREEN, font="Helvetica 30", command=self.submitForm)
+        self.canvas.create_window(800, 650, window=self.usernameBtn)
+
+        self.controlsInputs = []
+        controlsInputsPositions = (
+            (800, 150),
+            (700, 250),
+            (800, 250),
+            (900, 250),
+        )
+        for i in range(len(self.controls)):
+            entry = Entry(self.tk, width=2, font="Helvetica 50", justify=CENTER, bg="white")
+            entry.insert(0, keysymToSymbol(self.controls[i]))
+            entry.configure(state="readonly")
+            entry.bind("<KeyPress>", lambda e, entry=entry: self.controlsInputKeypress(entry, e))
+            entry.keysym = self.controls[i]
+            self.controlsInputs.append(entry)
+            self.canvas.create_window(*controlsInputsPositions[i], window=entry)
 
     def start(self):
         self.started = True
@@ -126,16 +162,35 @@ class Game:
         else:
             self.start()
 
-    def submitUsername(self):
+    def submitForm(self):
         if self.started:
             return
+
         username = self.usernameInput.get()
         if len(username) == 0:
             self.usernameInput.configure(bg="red")
             self.tk.after(300, lambda: self.usernameInput.configure(bg="white"))
             return
         self.username = username
+
+        self.controls = [entry.keysym for entry in self.controlsInputs]
+
         self.paused = False
+
+    def controlsInputKeypress(self, entry: Entry, e):
+        keysym = e.keysym
+        if keysym in IGNORED_KEYSYMS:
+            return
+
+        if len(keysym) == 1:
+            # if it's uppercase, the player would need to hold shift for every control
+            # so make it lowercase
+            keysym = keysym.lower()
+        entry.keysym = keysym
+        entry.configure(state=NORMAL)
+        entry.delete(0, END)
+        entry.insert(0, keysymToSymbol(keysym))
+        entry.configure(state="readonly")
 
     def update(self):
         for sprite in self.sprites:
