@@ -2,6 +2,7 @@
 Game window is 1600x900
 """
 import os
+from time import time
 from hashlib import sha1
 from tkinter import *
 from datetime import date
@@ -27,8 +28,9 @@ from Sprites.Zombie import Zombie
 from typing import List
 
 
-UPDATE_INTERVAL = int(1000/60)  # 60 fps
-REDRAW_INTERVAL = int(1000/60)  # 60 fps
+UPDATE_INTERVAL_SECS = 1/60  # 60 fps
+REDRAW_INTERVAL_SECS = 1/60  # 60 fps
+MIN_DELAY = 0  # wait at least MIN_DELAY seconds for the next update/draw call
 
 COLOR_GREEN = "#151f13"
 
@@ -86,6 +88,8 @@ class Game:
         tk.bind('<Return>', lambda e: self.restart())
         tk.protocol("WM_DELETE_WINDOW", self.onClose)
 
+        self.lastUpdateTime = time()
+
     # noinspection PyAttributeOutsideInit
     def createForm(self):
         font = "Helvetica 15"
@@ -117,6 +121,7 @@ class Game:
 
     def start(self):
         self.started = True
+        self.lastUpdateTime = time()
 
         self.canvas.delete('all')
         for sprite in self.sprites:
@@ -193,8 +198,11 @@ class Game:
         entry.configure(state="readonly")
 
     def update(self):
+        startTime = time()
+        dt = startTime - self.lastUpdateTime
+
         for sprite in self.sprites:
-            sprite.update(UPDATE_INTERVAL / 1000)
+            sprite.update(dt)
 
         if not self.dontSpawnZombie and len(self.zombies.children) < self.targetNumZombies - 1:
             self.zombies.children.insertRight(Zombie(self.canvas, self.player))
@@ -203,20 +211,31 @@ class Game:
 
         self.updateScheduled = False
         if not self.paused:
+            self.lastUpdateTime = startTime
+            remainingTime = UPDATE_INTERVAL_SECS - (time() - startTime)
+            if remainingTime < MIN_DELAY:
+                remainingTime = MIN_DELAY
+
             self.updateScheduled = True
-            self.tk.after(UPDATE_INTERVAL, self.update)
+            self.tk.after(int(remainingTime * 1000), self.update)
 
     def _unlockZombieSpawn(self):
         self.dontSpawnZombie = False
 
     def redraw(self):
+        startTime = time()
+
         for sprite in self.sprites:
             sprite.redraw()
 
         self.redrawScheduled = False
         if not self.paused:
+            remainingTime = REDRAW_INTERVAL_SECS - (time() - startTime)
+            if remainingTime < MIN_DELAY:
+                remainingTime = MIN_DELAY
+
             self.redrawScheduled = True
-            self.tk.after(REDRAW_INTERVAL, self.redraw)
+            self.tk.after(int(remainingTime * 1000), self.redraw)
 
     def OnZombieKilled(self):
         self.targetNumZombies += 0.25
