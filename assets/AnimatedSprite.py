@@ -52,7 +52,7 @@ class AnimatedSprite(Sprite):
     def update(self, dt):
         super(AnimatedSprite, self).update(dt)
         self.cycleTime += dt
-        frame = floor((self.cycleTime * len(self.frames)) / self.cycleLength)
+        frame = floor(len(self.frames) * self.cycleTime / self.cycleLength)
         if frame >= len(self.frames):
             frame = 0
             self.cycleTime = 0

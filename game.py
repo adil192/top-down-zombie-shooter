@@ -3,6 +3,7 @@ Game window is 1600x900
 """
 import os
 from time import time
+from random import random
 from hashlib import sha1
 from tkinter import *
 from datetime import date
@@ -335,6 +336,7 @@ class Game:
             zombie: Zombie = Zombie(self.canvas, self.player)
             zombie.position = savedState.zombiePositions[i]
             zombie.hearts = savedState.zombieHearts[i]
+            zombie.cycleTime = random() * zombie.cycleLength  # make sure zombie animations aren't synced
             self.zombies.children.insertRight(zombie)
 
     def onClose(self):
