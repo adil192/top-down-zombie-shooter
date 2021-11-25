@@ -23,9 +23,6 @@ class Bullets(SpriteGroup):
 
 
 class _Bullet(Sprite):
-    # bullet is destroyed after LIFETIME milliseconds
-    LIFETIME: int = 1000
-
     # bullet speed in pixels per second
     SPEED: float = (1600**2 + 900**2) ** 0.5
 
@@ -36,8 +33,6 @@ class _Bullet(Sprite):
         self.position = startPos
         self.forwards = forwards
         self.game: Game = game
-
-        game.tk.after(self.__class__.LIFETIME, self.destroy)
 
     def update(self, dt):
         super(_Bullet, self).update(dt)
@@ -59,3 +54,7 @@ class _Bullet(Sprite):
 
     def destroy(self):
         self.destroyed = True
+
+    def validatePosition(self):
+        if self.position.x < 0 or self.position.x > 1600 or self.position.y < 0 or self.position.y > 900:
+            self.destroy()
