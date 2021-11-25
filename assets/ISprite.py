@@ -20,6 +20,11 @@ class ISprite:
     @position.setter
     def position(self, new: Vector2):
         self._pos = new
+        self.validatePosition()
+
+    def validatePosition(self):
+        self.position.x = min(1600.0, max(self.position.x, 0))
+        self.position.y = min(900.0, max(self.position.y, 0))
 
     @property
     def rotation(self) -> float:

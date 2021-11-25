@@ -40,6 +40,10 @@ class Sprite(ISprite):
         ISprite.position.fset(self, new)
         self.topLeftPosition = new - self.halfImageSize
 
+    def validatePosition(self):
+        self.position.x = min(1600.0 - self.halfImageSize.x * 0.5, max(self.position.x, self.halfImageSize.x * 0.5))
+        self.position.y = min(900.0 - self.halfImageSize.y * 0.5, max(self.position.y, self.halfImageSize.y * 0.5))
+
     def first_draw(self):
         if self.hidden:
             return
