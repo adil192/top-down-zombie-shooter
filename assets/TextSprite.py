@@ -1,6 +1,7 @@
 from tkinter import Canvas
 
 from assets.ISprite import ISprite
+from assets.Vectors import Vector2
 
 
 class TextSprite(ISprite):
@@ -21,6 +22,11 @@ class TextSprite(ISprite):
     @text.setter
     def text(self, new: str):
         self.__text = new
+        self.needsANewDraw = True
+
+    @ISprite.position.setter
+    def position(self, new: Vector2):
+        ISprite.position.fset(self, new)
         self.needsANewDraw = True
 
     def first_draw(self):
