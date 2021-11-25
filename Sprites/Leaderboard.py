@@ -16,9 +16,9 @@ class Leaderboard(ISprite):
 
     TITLE = "Leaderboard"
     HEADER_NUM = "#"
-    HEADER_SCORE = "score"
-    HEADER_DATE = "date"
-    HEADER_NAME = "name"
+    HEADER_SCORE = "Score"
+    HEADER_DATE = "Date"
+    HEADER_NAME = "Name"
 
     def __init__(self, canvas: Canvas,  newScore: int = None, newDate: str = None, newName: str = None):
         super().__init__(canvas)
@@ -90,7 +90,9 @@ class Leaderboard(ISprite):
 
     @staticmethod
     def _formatRow(n: Union[int, str], score: Union[int, str], date: str, name: str):
-        return f"| {n} |{score:^11}|{date:^14}| {name:^15} |"
+        if n == "#":
+            return f"| {n} | {score:<10} |{date:^14}| {name:>17} |"
+        return f"| {n} |  {score:<9} |{date:^14}| {name:>16}  |"
 
     @staticmethod
     def parseLeaderboardLine(line: str) -> (Union[int, str], str, str):
