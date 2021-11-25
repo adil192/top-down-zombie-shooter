@@ -120,6 +120,8 @@ class Game:
             self.controlsInputs.append(entry)
             self.canvas.create_window(*controlsInputsPositions[i], window=entry)
 
+        self.usernameInput.focus_set()
+
     def start(self):
         self.started = True
 
