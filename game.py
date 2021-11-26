@@ -1,5 +1,7 @@
 """
 Game window is 1600x900
+
+- Submitted 26/11/2021
 """
 import os
 from time import time
