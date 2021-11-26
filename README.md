@@ -2,6 +2,9 @@
 
 This is the repository for the Python Coursework named: 16321-Cwk-S-Python Coursework
 
+## Running the game
+- Run `python3 game.py` to start the game.
+
 ## Auto-save
 - The game auto-saves when you close the window.
 - Simply enter the same username the next time you play to recover your game state.
@@ -23,19 +26,19 @@ This is the repository for the Python Coursework named: 16321-Cwk-S-Python Cours
 
 ## Images used
 
-### Animated Top Down Survivor Player (images/Top_Down_Survivor)
+- ### Animated Top Down Survivor Player (images/Top_Down_Survivor)
 
 - https://opengameart.org/content/animated-top-down-survivor-player by [rileygombart](https://opengameart.org/users/rileygombart)
 
 - License: [![CC-BY 3.0](https://opengameart.org/sites/default/files/license_images/cc-by.png)CC-BY 3.0](http://creativecommons.org/licenses/by/3.0/)
 
-### Animated Top Down Zombie (images/Top_Down_Zombie)
+- ### Animated Top Down Zombie (images/Top_Down_Zombie)
 
 - https://opengameart.org/content/animated-top-down-zombie by [rileygombart](https://opengameart.org/users/rileygombart)
 
 - License: [![CC0](https://opengameart.org/sites/default/files/license_images/cc0.png)CC0](http://creativecommons.org/publicdomain/zero/1.0/)
 
-### JoyPixels emojis (images/Emojis)
+- ### JoyPixels emojis (images/Emojis)
 
 - https://www.joypixels.com/emoji by JoyPixels
 
