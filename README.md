@@ -1,6 +1,7 @@
-# 16321_Python_Coursework
+# Top-down zombie shooter (16321_Python_Coursework)
 
-This is the repository for the Python Coursework named: 16321-Cwk-S-Python Coursework
+This is the repository for the Python Coursework named: `16321-Cwk-S-Python Coursework`
+as part of the University of Manchester's COMP16321 module.
 ![image](https://user-images.githubusercontent.com/21128619/182282485-17a533cf-4a16-407c-b87d-5025e9a89f46.png)
 
 ## Running the game
@@ -27,19 +28,19 @@ This is the repository for the Python Coursework named: 16321-Cwk-S-Python Cours
 
 ## Images used
 
-- ### Animated Top Down Survivor Player (images/Top_Down_Survivor)
+### Animated Top Down Survivor Player (images/Top_Down_Survivor)
 
 - https://opengameart.org/content/animated-top-down-survivor-player by [rileygombart](https://opengameart.org/users/rileygombart)
 
 - License: [![CC-BY 3.0](https://opengameart.org/sites/default/files/license_images/cc-by.png)CC-BY 3.0](http://creativecommons.org/licenses/by/3.0/)
 
-- ### Animated Top Down Zombie (images/Top_Down_Zombie)
+### Animated Top Down Zombie (images/Top_Down_Zombie)
 
 - https://opengameart.org/content/animated-top-down-zombie by [rileygombart](https://opengameart.org/users/rileygombart)
 
 - License: [![CC0](https://opengameart.org/sites/default/files/license_images/cc0.png)CC0](http://creativecommons.org/publicdomain/zero/1.0/)
 
-- ### JoyPixels emojis (images/Emojis)
+### JoyPixels emojis (images/Emojis)
 
 - https://www.joypixels.com/emoji by JoyPixels
 
