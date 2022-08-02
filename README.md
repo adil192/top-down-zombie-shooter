@@ -1,6 +1,7 @@
 # 16321_Python_Coursework
 
 This is the repository for the Python Coursework named: 16321-Cwk-S-Python Coursework
+![image](https://user-images.githubusercontent.com/21128619/182282485-17a533cf-4a16-407c-b87d-5025e9a89f46.png)
 
 ## Running the game
 - Run `python3 game.py` to start the game.
